@@ -16,7 +16,8 @@ class CreateMuzakkiWebsTable extends Migration
         Schema::create('muzakki__webs', function (Blueprint $table) {
             $table->bigIncrements('id_muzakki');
             $table->unsignedBigInteger('id_zakat');//referensi dari zakat_fitrah_web
-            $table->string('nama_muzakki');
+            $table->foreign('id_zakat')->references('id_zakat')->on('zakat__fitrah__webs')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('nama_muzakki', 50);
             $table->timestamps();
         });
     }

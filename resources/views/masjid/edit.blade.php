@@ -1,31 +1,28 @@
 @extends('layouts.admin')
 @section('title')
-    <title>Input Data Masjid</title>
+    <title>Edit Data Masjid</title>
 @endsection
 @section('content')
-    @if(session('success'))
-            <div>{{ session('success') }}</div>
-    @endif
-    <form action="{{ route('masjid.update', $masjid->id_masjid) }}" method="post">
+    <form action="{{ route('masjid.update', $masjid->id_masjid) }}" method="post" class="form-horizontal">
         @csrf
         @method('PUT')
-        <table>
-            <tr>
-                <td>Nama Masjid</td>
-                <td><input type="text" name="nama_masjid" placeholder="Masukkan nama masjid" value="{{ $masjid->nama_masjid }}" autofocus required></td>
-            </tr>
-            <tr>
-                <td>Alamat</td>
-                <td><input type="text" name="alamat" placeholder="Masukkan alamat masjid" value="{{ $masjid->alamat }}" required></td>
-            </tr>
-            <tr>
-                <td>No Rekening</td>
-                <td><input type="text" name="no_rekening" placeholder="Masukkan no. rekening masjid" value="{{ $masjid->no_rekening }}" required> </td>
-            </tr>
-            <tr>
-                <td colspan="2"><button type="submit">Update</button></td>
-            </tr>
-        </table>
-
+        <div class="form-row justify-content-center">
+            <div class="form-group col-sm-12">
+                <label for="nama_masjid">Nama Masjid</label>
+                <input type="text" name="nama_masjid" class="form-control" placeholder="Masukkan nama masjid" value="{{ $masjid->nama_masjid }}" autofocus required>
+                <br/>
+            </div>
+            <div class="form-group col-sm-12">
+                <label for="alamat">Alamat Masjid</label>
+                <input type="text" name="alamat" class="form-control" placeholder="Masukkan alamat masjid" value="{{ $masjid->alamat }}" required>
+                <br/>
+            </div>
+            <div class="form-group col-sm-12">
+                <label for="no_rekening">No. Rekening</label>
+                <input type="text" name="no_rekening" class="form-control" placeholder="Masukkan no. rekening masjid" value="{{ $masjid->no_rekening }}" required>
+                <br/>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Update</button>
     </form>
 @endsection

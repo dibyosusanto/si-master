@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Auth;
 class LoginController extends Controller
 {
     /*
@@ -26,7 +26,26 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'administrator/home';
+    protected $redirectTo;
+    public function redirectTo()
+    {
+        switch(Auth::user()->role){
+            case 1 : //role 1 adalah admin
+                $this->redirectTo = '/admin';
+                return $this->redirectTo;
+                break;
+            case 2 : // role 2 adalah pengurus
+                $this->redirectTo = '/pengurus';
+                return $this->redirectTo;
+                break;
+            case 3 : // role 2 adalah pengurus
+                    $this->redirectTo = '/jamaah_web';
+                    return $this->redirectTo;
+                    break;
+            default :
+                $this->redirectTo = '/login';
+        }
+    }
     // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**

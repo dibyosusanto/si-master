@@ -6,25 +6,23 @@
     @if(session('success'))
             <div>{{ session('success') }}</div>
     @endif
-    <form action="{{ route('masjid.index') }}" method="post">
+    <form action="{{ route('masjid.store') }}" method="post">
         @csrf
-        <table>
-            <tr>
-                <td>Nama Masjid</td>
-                <td><input type="text" name="nama_masjid" placeholder="Masukkan nama masjid" autofocus required></td>
-            </tr>
-            <tr>
-                <td>Alamat</td>
-                <td><input type="text" name="alamat" placeholder="Masukkan alamat masjid" required></td>
-            </tr>
-            <tr>
-                <td>No Rekening</td>
-                <td><input type="text" name="no_rekening" placeholder="Masukkan no. rekening masjid" required> </td>
-            </tr>
-            <tr>
-                <td colspan="2"><button type="submit">Simpan</button></td>
-            </tr>
-        </table>
-
+        <div class="form-group">
+            <label for="nama_masjid">Nama Masjid</label>
+            <input type="text" name="nama_masjid" class="form-control" placeholder="Masukkan nama masjid" autofocus required>
+        </div>
+        <div class="form-group">
+            <label for="alamat">Alamat Masjid</label>
+            <input type="text" name="alamat" class="form-control" placeholder="Masukkan alamat masjid" required>
+        </div>
+        <div class="form-group">
+            <label for="no_rekening">No. Rekening</label>
+            <input type="text" name="no_rekening" class="form-control" placeholder="Masukkan no. rekening masjid" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary my-4 btn-block">Simpan</button>
+        </div>
+        
     </form>
 @endsection

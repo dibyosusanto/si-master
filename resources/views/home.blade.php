@@ -1,34 +1,17 @@
 @extends('layouts.admin')
-<!-- <style>
-    .top-right {
-        position: absolute;
-        right: 10px;
-        top: 18px;
-    }
-</style> -->
+
 @section('title')
     <title> Halaman Admin </title>
 @endsection
 
 @section('content')
-<h3> Selamat Datang {{ Auth::user()->name }} </h3>
-<!-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
+    <!-- Jumbotron Header -->
+    <div class="container">
+        <header class="jumbotron my-4">
+            <h1 class="display-3">Selamat Datang {{ Auth::user()->id }}</h1>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
+            <a href="#" class="btn btn-primary btn-lg">Call to action!</a>
+        </header>
     </div>
-</div> -->
 @endsection

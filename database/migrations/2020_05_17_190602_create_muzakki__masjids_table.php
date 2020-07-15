@@ -16,7 +16,8 @@ class CreateMuzakkiMasjidsTable extends Migration
         Schema::create('muzakki__masjids', function (Blueprint $table) {
             $table->bigIncrements('id_muzakki');
             $table->unsignedBigInteger('id_zakat');//referensi dari zakat_fitrah_masjid
-            $table->string('nama_muzakki');
+            $table->foreign('id_zakat')->references('id_zakat')->on('zakat__fitrah__masjids')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('nama_muzakki', 50);
             $table->timestamps();
         });
     }

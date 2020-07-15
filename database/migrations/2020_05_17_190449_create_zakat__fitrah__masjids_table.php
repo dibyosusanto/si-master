@@ -19,8 +19,11 @@ class CreateZakatFitrahMasjidsTable extends Migration
             $table->string('keterangan')->nullable();
             $table->integer('nominal');
             $table->unsignedBigInteger('id_jamaah');//referensi dari jamaah_masjid
+            $table->foreign('id_jamaah')->references('id_jamaah')->on('jamaah__masjids')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('id_masjid'); //referensi dari masjid
+            $table->foreign('id_masjid')->references('id_masjid')->on('masjids')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('id_pengurus'); //referensi dari pengurus
+            $table->foreign('id_pengurus')->nullable()->references('id_pengurus')->on('penguruses')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

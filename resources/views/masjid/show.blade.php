@@ -29,21 +29,24 @@
         </tr>
     </table>
     <span>Data Pengurus</span>
-    <table cellpadding=1 cellspacing=1 border=1>
+    <span>Jumlah Pengurus {{ $jmlPengurus }}</span>
+    <table cellpadding=5>
         <thead>
             <th>Nama Pengurus</th>
             <th>No. Hp</th>
             <th>Alamat</th>
-            <th>Email</th>
         </thead>
-        @foreach($pengurus as $p)
+        @forelse($pengurus as $p)
         <tr>
             <td>{{ $p->nama_pengurus }}</td>
             <td>{{ $p->no_hp }}</td>
             <td>{{ $p->alamat }}</td>
-            <td>{{ $p->email }}</td>
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="5" align="center">Tidak ada data</td>
+        </tr>
+        @endforelse
     </table>
     <br/><br/>
     <span>Data Jamaah </span>
@@ -55,7 +58,7 @@
             <th>No. Hp</th>
             <th>Jenis Kelamin</th>
         </thead>
-        @foreach($jamaah as $j)
+        @forelse($jamaah as $j)
         <tr>
             <td>{{ $j->nama_jamaah }}</td>
             <td>{{ $j->alamat }}</td>
@@ -63,7 +66,11 @@
             <td>{{ $j->no_hp }}</td>
             <td>{{ $j->jenis_kelamin }}</td>
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="5" align="center">Tidak ada data</td>
+        </tr>
+        @endforelse
         <tr>
             <td><a href="{{ route('masjid.index') }}"> Kembali </a></td>
         </tr>

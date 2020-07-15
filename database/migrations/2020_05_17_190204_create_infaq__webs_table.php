@@ -21,8 +21,11 @@ class CreateInfaqWebsTable extends Migration
             $table->integer('nominal');
             $table->boolean('status_validasi')->default(false); //true jika sudah divalidasi, false jika belum
             $table->unsignedBigInteger('id_jamaah');//referensi dari jamaah_web
+            $table->foreign('id_jamaah')->references('id_jamaah')->on('jamaah__webs')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('id_masjid'); //referensi dari masjid
+            $table->foreign('id_masjid')->references('id_masjid')->on('masjids')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('id_pengurus'); //referensi dari pengurus
+            $table->foreign('id_pengurus')->nullable()->references('id_pengurus')->on('penguruses')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

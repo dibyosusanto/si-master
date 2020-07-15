@@ -1,92 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-    <!-- Ini adalah master view untuk halaman admin -->
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        @yield('title')
-        <!-- <link rel="stylesheet" href="../../../public/assets/css/style.css"> -->
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    </head>
-    <body>
-        <div class="login-card">
-            
-        </div>
-    </body>
-</html>
-
-
-
-<!-- @extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<!-- Form Login -->
+<div class="modal fade" id="login" role="dialog">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Login</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+          <div class="card-group">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <img class="rounded mb-5 mx-auto d-block" src="{{ asset('logo/logo.png') }}" width="50%" height="100%">
+
+                    <!-- ACTIONNYA MENGARAH PADA URL /LOGIN -->
+                    <!-- UNTUK MENCARI TAU TUJUAN URI DARI ROUTE NAME DIBAWAH, PADA COMMAND LINE, KETIKKAN PHP ARTISAN ROUTE:LIST DAN CARI URI YANG MENGGUNAKAN METHOD POST -->
+                    <!-- KARENA URI /LOGIN DENGAN METHOD GET DIGUNAKAN UNTUK ME-LOAD VIEW HALAMAN LOGIN -->
+                    <!-- PENGGUNAAN ROUTE() APABILA ROUTING TERSEBUT MEMILIKI NAMA, ADAPUN NAMENYA ADA PADA COLOM NAME ROUTE:LIST -->
+                    <!-- JIKA ROUTINGNYA TIDAK MEMILIKI NAMA, MAKA GUNAKAN HELPER URL() DAN DIDALAMNYA ADALAH URINYA. CONTOH URL('/LOGIN') -->
+                    <form action="{{ route('login') }}" method="post">
                         @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user"></i>
+                                </span>
                             </div>
+                          
+                            <!-- $errors->has('email') AKAN MENGECEK JIKA ADA ERROR DARI HASIL VALIDASI LARAVEL, SEMUA KEGAGALAN VALIDASI LARAVEL AKAN DISIMPAN KEDALAM VARIABLE $errors -->
+                            <input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" 
+                                type="email" 
+                                name="email"
+                                placeholder="Email Address" 
+                                value="{{ old('email') }}" 
+                                autofocus 
+                                required>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock"></i>
+                                </span>
                             </div>
+                            <input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" 
+                                type="password" 
+                                name="password"
+                                placeholder="Password" 
+                                required>
                         </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
+                        <div class="row">
+                            @if (session('error'))
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    {{ session('error') }}
                                 </div>
                             </div>
-                        </div>
+                            @endif
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
+                            <div class="col-6">
+                                <button class="btn btn-link px-0" type="button">Forgot password?</button>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button class="btn btn-primary px-4">Login</button>
                             </div>
                         </div>
                     </form>
                 </div>
+              </div>
             </div>
-        </div>
+          </div>
+      </div>
+      </div>
     </div>
-</div>
-@endsection -->
+    <!-- /Form Login -->

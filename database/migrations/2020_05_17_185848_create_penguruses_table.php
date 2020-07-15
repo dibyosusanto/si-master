@@ -15,14 +15,17 @@ class CreatePengurusesTable extends Migration
     {
         Schema::create('penguruses', function (Blueprint $table) {
             $table->bigIncrements('id_pengurus');
-            $table->string('nama_pengurus');
-            $table->string('no_hp')->unique();
+            $table->string('nama_pengurus', 50);
+            $table->string('no_hp', 13)->unique();
             $table->string('alamat');
-            $table->string('email')->unique();
-            $table->string('username')->unique();
-            $table->string('password');
             $table->unsignedBigInteger('id_masjid'); //merujuk pada tabel masjid
+            $table->foreign('id_masjid')->references('id_masjid')->on('masjids')
+                    ->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('id_user'); //merujuk pada tabel users
+            $table->foreign('id_user')->references('id')->on('users')
+                    ->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
+            
         });
     }
 

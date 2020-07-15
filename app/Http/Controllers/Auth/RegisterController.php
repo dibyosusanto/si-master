@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -29,7 +30,22 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo;
+    public function redirectTo()
+    {
+        switch(Auth::user()->role){
+            case 1 : //role 1 adalah admin
+                $this->redirectTo = '/admin';
+                return $this->redirectTo;
+                break;
+            case 2 : // role 2 adalah pengurus
+                $this->redirectTo = route('pengurus.isidata');
+                return $this->redirectTo;
+                break;
+            default :
+                $this->redirectTo = '/login';
+        }
+    }
 
     /**
      * Create a new controller instance.
@@ -50,9 +66,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required'],
         ]);
     }
 
@@ -65,9 +81,9 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => $data['role'],
         ]);
     }
 }

@@ -19,7 +19,9 @@ class CreateKegiatansTable extends Migration
             $table->date('tanggal_kegiatan');
             $table->text('deskripsi');
             $table->unsignedBigInteger('id_masjid');//referensi dari masjid
-            $table->unsignedBigInteger('id_pengurus'); //referensi dari pengurus_masjid
+            $table->foreign('id_masjid')->references('id_masjid')->on('masjids')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('id_pengurus'); //referensi dari penguruses
+            $table->foreign('id_pengurus')->nullable()->references('id_pengurus')->on('penguruses')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -15,9 +15,9 @@ class CreateMasjidsTable extends Migration
     {
         Schema::create('masjids', function (Blueprint $table) {
             $table->bigIncrements('id_masjid');
-            $table->string('nama_masjid');
+            $table->string('nama_masjid', 50);
             $table->string('alamat');
-            $table->string('no_rekening')->unique();
+            $table->string('no_rekening', 20)->unique();
             $table->timestamps();
         });
     }

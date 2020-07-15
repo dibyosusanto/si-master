@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Masjid;
+use App\Pengurus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -9,7 +10,12 @@ class MasjidController extends Controller
 {
     public function index(){
         $masjid = Masjid::paginate(15);
-        return view('masjid.index', compact('masjid'));
+        $jmlPengurus = DB::table('penguruses')
+            ->select('id_pengurus')
+            ->groupBy('id_masjid')
+            ->count();
+        
+        return view('masjid.index', compact('masjid', 'jmlPengurus'));
     }
 
     public function create(){
@@ -38,20 +44,24 @@ class MasjidController extends Controller
     public function show($id_masjid){
         $masjid = Masjid::find($id_masjid);
         $mosque = DB::table('masjids')
-            ->where('masjids.id_masjid', '=', $id_masjid)
-            ->select('masjids.*')
+            ->where('id_masjid', '=', $id_masjid)
+            ->select('*')
             ->get();
+        $jmlPengurus = DB::table('penguruses')
+            ->select('*')
+            ->where('id_masjid', '=', $id_masjid)
+            ->count();
         $pengurus = DB::table('penguruses')
-            ->join('masjids', 'masjids.id_masjid', '=', 'penguruses.id_masjid')
-            ->where('masjids.id_masjid', '=', $id_masjid)
-            ->select('penguruses.*')
+            // ->join('masjids', 'masjids.id_masjid', '=', 'penguruses.id_masjid')
+            ->where('id_masjid', '=', $id_masjid)
+            ->select('*')
             ->get();
         $jamaah = DB::table('jamaah__masjids')
-            ->join('masjids', 'masjids.id_masjid', '=', 'jamaah__masjids.id_masjid')
-            ->where('masjids.id_masjid', '=', $id_masjid)
+            // ->join('masjids', 'masjids.id_masjid', '=', 'jamaah__masjids.id_masjid')
+            ->where('id_masjid', '=', $id_masjid)
             ->select('jamaah__masjids.*')
             ->get();
-        return view('masjid.show', compact('mosque', 'pengurus', 'jamaah'));
+        return view('masjid.show', compact('mosque', 'pengurus', 'jamaah', 'jmlPengurus'));
     }
 
     public function edit($id_masjid){
@@ -61,15 +71,8 @@ class MasjidController extends Controller
 
     public function update(Request $request, $id_masjid){
         $masjid = Masjid::find($id_masjid);
-        // // Masjid::where('id_masjid', $id_masjid)
-        // ->update([
-            
-        //     // 'nama_masjid'=>ucfirst($request->nama_masjid),
-        //     // 'alamat'=>$request->alamat,
-        //     // 'no_rekening'=>$request->no_rekening
-        // ]);
-        $masjid->nama_masjid = $request->get('nama_masjid');
-        $masjid->alamat = $request->get('alamat');
+        $masjid->nama_masjid = ucwords($request->get('nama_masjid'));
+        $masjid->alamat = ucwords($request->get('alamat'));
         $masjid->no_rekening = $request->get('no_rekening');
         $masjid->save();
         return redirect(route('masjid.index'))->with(['success' => $request->nama_masjid . ' berhasil diubah']);
