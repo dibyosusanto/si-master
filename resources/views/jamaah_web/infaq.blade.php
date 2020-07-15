@@ -20,43 +20,50 @@
                 </button>
                 {{ session('edit') }}
             </div>
-        @elseif(session('tambah'))
+        @elseif(session('input'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                {{ session('tambah') }}
+                {{ session('input') }}
             </div>
         @endif
         <script>
           $(".alert").alert();
         </script>
-        <table id="myTable" class="table table-active table-hover table-striped">
+        <table id="infaq" class="table table-hover table-striped table-bordered">
             <thead class="thead-dark">
                     <th>#</th>
                     <th>Tanggal Infaq</th>
                     <th>Keterangan</th>
                     <th>Bukti Infaq</th>
-                    <th>Nominal<th>
+                    <th>Nominal</th>
                     <th>Status Validasi</th>
                     <th>Masjid</th>
                     <th>Opsi</th>
             </thead>
-                <?php $no=1; ?>
+                
             <tbody>
                 @foreach($infaq_web as $iw)
+                <?php $no=1; ?>
                 <tr>
                     <td>{{ $no++ }}
                     <td>{{ $iw->tgl_infaq }}</td>
                     <td>{{ $iw->keterangan }}</td>
-                    <td>{{ $iw->bukti }}</td>
-                    <td>{{ $iw->bominal }}</td>
-                    <td>{{ $iw->status_validasi }}</td>
-                    <td>{{ $iw->id_masjid }}</td>
+                    <td><img src="{{ asset('storage/bukti_infaq_web/' . $iw->bukti_infaq) }}" alt=""></td>
+                    <td>Rp. {{ $iw->nominal }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_masjid.show', $j->id_jamaah) }}"><i class="fa fa-info-circle" aria-hidden="true"></i>
+                        @if($iw->status_validasi == 0)
+                            {{ 'Belum divalidasi' }}
+                        @else
+                            {{ 'Sudah divalidasi' }}
+                        @endif
+                    </td>
+                    <td>{{ $iw->masjid->nama_masjid }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_web.detail_infaq', $iw->id_infaq) }}"><i class="fa fa-info-circle" aria-hidden="true"></i>
 Detail</a> |
-                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_masjid.edit', $j->id_jamaah) }}"> <i class="fas fa-pen    "></i> Edit</a> |
+                        <a class="btn btn-info btn-sm" href="#"> <i class="fas fa-pen"></i> Edit</a> |
                         <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"> <i class="fa fa-minus-circle" aria-hidden="true"></i> Hapus </button>
                     </td> 
                 </tr>
@@ -78,7 +85,7 @@ Detail</a> |
                             </div>
                     <div class="modal-body">
                         <div class="container-fluid">
-                        <form action="{{ route('jamaah_web.inputInfaq') }}" method="post">
+                        <form action="{{ route('jamaah_web.inputInfaq') }}" method="post" enctype="multipart/form-data" >
                             @csrf
                             <div class="form-group">
                                 <label for="tgl_infaq">Tanggal Infaq</label>
@@ -104,7 +111,7 @@ Detail</a> |
                             
                             <div class="form-group">
                                 <label for="id_masjid">Masjid</label>
-                                <select class="form-control" name="jenis_kelamin">
+                                <select class="form-control" name="id_masjid">
                                     <option selected>--Pilih salah satu--</option>
                                     @foreach($masjid as $m)
                                         <option value="{{ $m->id_masjid }}"> {{ $m->nama_masjid . ' - ' . $m->no_rekening }} </option>

@@ -133,7 +133,7 @@
         <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
         <script>
             $(document).ready( function () {
-            $('#myTable').DataTable({
+            $('#infaq').DataTable({
             dom: 
                 "<'row'<'col-sm-4 pull-left'B><'col-sm-3'l><'col-sm-5 pull-right'f>>" +
                 "<'row'<'col-sm-12'tr>>" +

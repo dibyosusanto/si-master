@@ -46,7 +46,7 @@ Route::get('/jamaah_web/profile/{id}', 'JamaahWebController@profile')->name('jam
 Route::put('/jamaah_web/{id}', 'JamaahWebController@updateProfile')->name('jamaah_web.updateProfile');
 Route::get('/jamaah_web/infaq/', 'JamaahWebController@lihatInfaq')->name('jamaah_web.lihatInfaq');
 Route::post('/jamaah_web/infaq/', 'JamaahWebController@inputInfaq')->name('jamaah_web.inputInfaq');
-
+Route::get('/jamaah_web/infaq/{id}', 'JamaahWebController@detail_infaq')->name('jamaah_web.detail_infaq');
 
 Route::get('/admin/', 'Admin@index')->name('admin')->middleware('admin');
 

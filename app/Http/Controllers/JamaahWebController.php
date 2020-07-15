@@ -78,6 +78,45 @@ class JamaahWebController extends Controller
     }
 
     public function inputInfaq(Request $request){
-        
+        $jamaah_web = DB::table('jamaah__webs')
+            ->select('*')
+            ->where('id_user', '=', Auth::user()->id)
+            ->first();
+        // $this->validate($request, [
+        //     'tgl_infaq' => 'required',
+        //     'bukti_infaq' => 'required|image|mimes:png,jpeg,jpg',
+        //     'nominal' => 'required|integer',
+        //     'id_masjid' => 'required',
+        // ]);        
+
+        if($request->hasFile('bukti_infaq')){
+            //menyimpan sementara ke dalam variabel file
+            $file = $request->file('bukti_infaq');
+            //ubah nama file
+            $filename = $jamaah_web->nama_jamaah . time() . $request->id_masjid . '.' . $file->getClientOriginalExtension();
+            //simpan file
+            $file->storeAs('public/bukti_infaq_web', $filename);
+            //input data
+            $input_infaq_web = Infaq_Web::create([
+                'tgl_infaq' => $request->tgl_infaq,
+                'keterangan' => $request->keterangan,
+                'bukti_infaq' => $filename,
+                'nominal' => $request->nominal,
+                'id_masjid' => $request->id_masjid,
+                'id_jamaah' => $jamaah_web->id_jamaah
+            ]);
+
+            return redirect(route('jamaah_web.lihatInfaq'))->with('input', 'Data berhasil diinput!');
+        }
+    }
+
+    public function detail_infaq($id)
+    {
+        $jamaah_web = DB::table('jamaah__webs')
+            ->select('*')
+            ->where('id_user', '=', Auth::user()->id)
+            ->first();
+        $detail_infaq = DB::table('infaq__webs')->select('*')->where('id_infaq', $id)->get();
+        return view('jamaah_web.detail_infaq', compact('detail_infaq', 'jamaah_web'));
     }
 }
