@@ -31,40 +31,25 @@
         <script>
           $(".alert").alert();
         </script>
-        <table id="infaq" class="table table-hover table-striped table-bordered">
+        <table id="infaq" class="table table-hover table-striped">
             <thead class="thead-dark">
                     <th>#</th>
                     <th>Tanggal Infaq</th>
-                    <th>Keterangan</th>
-                    <th>Bukti Infaq</th>
                     <th>Nominal</th>
-                    <th>Status Validasi</th>
                     <th>Masjid</th>
                     <th>Opsi</th>
             </thead>
                 
             <tbody>
-                @foreach($infaq_web as $iw)
                 <?php $no=1; ?>
+                @foreach($infaq_web as $iw)
                 <tr>
-                    <td>{{ $no++ }}
-                    <td>{{ $iw->tgl_infaq }}</td>
-                    <td>{{ $iw->keterangan }}</td>
-                    <td><img src="{{ asset('storage/bukti_infaq_web/' . $iw->bukti_infaq) }}" alt=""></td>
-                    <td>Rp. {{ $iw->nominal }}</td>
-                    <td>
-                        @if($iw->status_validasi == 0)
-                            {{ 'Belum divalidasi' }}
-                        @else
-                            {{ 'Sudah divalidasi' }}
-                        @endif
-                    </td>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ date('d F Y', strtotime($iw->tgl_infaq)) }}</td>
+                    <td class="text-right">{{ number_format($iw->nominal) }}</td>
                     <td>{{ $iw->masjid->nama_masjid }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_web.detail_infaq', $iw->id_infaq) }}"><i class="fa fa-info-circle" aria-hidden="true"></i>
-Detail</a> |
-                        <a class="btn btn-info btn-sm" href="#"> <i class="fas fa-pen"></i> Edit</a> |
-                        <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"> <i class="fa fa-minus-circle" aria-hidden="true"></i> Hapus </button>
+                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_web.detail_infaq', $iw->id_infaq) }}"><i class="fa fa-info-circle" aria-hidden="true"></i>Detail</a>
                     </td> 
                 </tr>
                 @endforeach
@@ -132,32 +117,7 @@ Detail</a> |
 
     <!--/ Modal Insert -->
 
-    <!-- Modal Delete-->
-    <form action="#" method="post">
-        @csrf
-        @method('DELETE')
-        <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="my-modal-title">Konfirmasi</h5>
-                        <button class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    <!--/ Modal Delete -->
-
+    
     <script type="text/javascript">
         $(function(){
         $(".datepicker").datepicker({

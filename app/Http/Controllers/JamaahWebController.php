@@ -93,7 +93,7 @@ class JamaahWebController extends Controller
             //menyimpan sementara ke dalam variabel file
             $file = $request->file('bukti_infaq');
             //ubah nama file
-            $filename = $jamaah_web->nama_jamaah . time() . $request->id_masjid . '.' . $file->getClientOriginalExtension();
+            $filename = $jamaah_web->nama_jamaah . time($request->tgl_infaq) . $request->id_masjid . '.' . $file->getClientOriginalExtension();
             //simpan file
             $file->storeAs('public/bukti_infaq_web', $filename);
             //input data
@@ -112,11 +112,8 @@ class JamaahWebController extends Controller
 
     public function detail_infaq($id)
     {
-        $jamaah_web = DB::table('jamaah__webs')
-            ->select('*')
-            ->where('id_user', '=', Auth::user()->id)
-            ->first();
-        $detail_infaq = DB::table('infaq__webs')->select('*')->where('id_infaq', $id)->get();
-        return view('jamaah_web.detail_infaq', compact('detail_infaq', 'jamaah_web'));
+        $jamaah_web = Jamaah_Web::where('id_user', '=', Auth::user()->id)->first();
+        $detail_infaqs = Infaq_Web::where('id_infaq', $id)->get();
+        return view('jamaah_web.detail_infaq', compact('detail_infaqs', 'jamaah_web'));
     }
 }
