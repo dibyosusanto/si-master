@@ -21,10 +21,7 @@ class JamaahWebController extends Controller
     }
 
     public function index(){
-        $jamaah_web = DB::table('jamaah__webs')
-            ->select('*')
-            ->where('id_user', '=', Auth::user()->id)
-            ->first();
+        $jamaah_web = Jamaah_Web::where('id_user', Auth::user()->id)->first();
         return view('jamaah_web.index', compact('jamaah_web'));
     }
 
@@ -73,7 +70,7 @@ class JamaahWebController extends Controller
             ->select('*')
             ->where('id_user', '=', Auth::user()->id)
             ->first();
-        $infaq_web = Infaq_Web::whereRaw('id_jamaah = (select id_jamaah from jamaah__webs where id_user = '. Auth::user()->id .')')->get();       
+        $infaq_web = Infaq_Web::whereRaw('id_jamaah = (select id_jamaah from jamaah__webs where id_user = '. Auth::user()->id .')')->get();
         return view('jamaah_web.infaq', compact('jamaah_web', 'infaq_web', 'masjid'));
     }
 
@@ -82,18 +79,18 @@ class JamaahWebController extends Controller
             ->select('*')
             ->where('id_user', '=', Auth::user()->id)
             ->first();
-        // $this->validate($request, [
-        //     'tgl_infaq' => 'required',
-        //     'bukti_infaq' => 'required|image|mimes:png,jpeg,jpg',
-        //     'nominal' => 'required|integer',
-        //     'id_masjid' => 'required',
-        // ]);        
+        $this->validate($request, [
+            'tgl_infaq' => 'required',
+            'bukti_infaq' => 'required|image|mimes:png,jpeg,jpg',
+            'nominal' => 'required|integer',
+            'id_masjid' => 'required',
+        ]);        
 
         if($request->hasFile('bukti_infaq')){
             //menyimpan sementara ke dalam variabel file
             $file = $request->file('bukti_infaq');
             //ubah nama file
-            $filename = $jamaah_web->nama_jamaah . time($request->tgl_infaq) . $request->id_masjid . '.' . $file->getClientOriginalExtension();
+            $filename = $jamaah_web->nama_jamaah . '-' . $request->tgl_infaq . '-'. $request->id_masjid . '.' . $file->getClientOriginalExtension();
             //simpan file
             $file->storeAs('public/bukti_infaq_web', $filename);
             //input data

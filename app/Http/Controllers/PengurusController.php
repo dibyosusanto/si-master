@@ -137,7 +137,14 @@ class PengurusController extends Controller
 
     public function infaq_web_all(){
         $infaq_web_all = Infaq_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
-        return view('pengurus.infaq_web_all', compact('infaq_web_all'));
+        $sum_infaq = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->first();
+        return view('pengurus.infaq_web_all', compact('infaq_web_all', 'sum_infaq'));
     }
     
+    public function validasiInfaq(Request $request, $id){
+        Infaq_Web::where('id_infaq', $id)
+            ->update(['status_validasi' => 1]);
+        return redirect(route('pengurus.infaq_web_all'));
+    }
 }

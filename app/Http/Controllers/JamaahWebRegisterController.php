@@ -50,17 +50,13 @@ class JamaahWebRegisterController extends Controller
     }
 
     public function store(Request $request){
-        $messages = [
-            'required' => ':attribute harus diisi',
-        ];
-        
         $this->validate($request, [
             'nama_jamaah' => 'required|string|min:3',
-            'no_hp' => 'required|numeric|min:11|max:13',
+            'no_hp' => 'required|digits:11,13',
             'alamat' => 'required',
             'tgl_lahir' => 'required',
             'jenis_kelamin' => 'required',
-        ], $messages);
+        ]);
             $pengurus = Jamaah_Web::create([
                 'nama_jamaah' => $request->get('nama_jamaah'),
                 'no_hp' => $request->get('no_hp'),

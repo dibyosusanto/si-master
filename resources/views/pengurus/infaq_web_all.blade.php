@@ -33,7 +33,10 @@
                     <th>Tanggal Infaq</th>
                     <th>Nominal</th>
                     <th>Jamaah</th>
-                    <th>Opsi</th>
+                    <th>Bukti Infaq</th>
+                    <th>Keterangan</th>
+                    <th>Status Validasi</th>
+                    <th>Validasi</th>
             </thead>
             <tbody>
                 <?php $no=1; ?>
@@ -44,42 +47,90 @@
                     <td>{{ number_format($infaq_web->nominal )}}</td>
                     <td>{{ $infaq_web->jamaah_web->nama_jamaah }} </td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="#"><i class="fa fa-info-circle" aria-hidden="true"></i>
-Detail</a> |
-                        <a class="btn btn-info btn-sm" href="#"> <i class="fas fa-pen    "></i> Edit</a> |
-                        <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"> <i class="fa fa-minus-circle" aria-hidden="true"></i> Hapus </button>
+                        <img src="{{ asset('storage/bukti_infaq_web/'. $infaq_web->bukti_infaq) }}" width="100px" height="100px">
+                        <a class="badge badge-info" data-target="#bukti_infaq" data-toggle="modal">Lihat</a></td>
+                    <td>
+                        @if($infaq_web->keterangan == null )
+                            <p> - </p>
+                        @else
+                            <p> {{ $infaq_web->keterangan }} </p>
+                        @endif
+                    </td>
+                    <td>
+                        @if($infaq_web->status_validasi == 0)
+                            <p class="badge badge-warning">Belum divalidasi</p>
+                        @else
+                            <p class="badge badge-success">Sudah divalidasi</p>
+                        @endif
+                    </td>
+                    <td>
+                       @if($infaq_web->status_validasi == 0)
+                            <button class="btn btn-sm btn-primary" data-target="#validasi_infaq" data-toggle="modal"><i class="fas fa-check"></i> Validasi</button>
+                        @else
+                            <p class="text-secondary">Sudah divalidasi</p>
+                        @endif
                     </td> 
                 </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="8" class="font-weight-bold text-center">{{ 'Total Infaq : Rp. ' . number_format($sum_infaq->total_infaq) }}</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 
-    <!-- Modal Delete-->
-    <form action="#" method="post">
-        @csrf
-        @method('DELETE')
-        <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <!-- Modal Bukti Infaq-->
+        <div class="modal fade" id="bukti_infaq" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="my-modal-title">Konfirmasi</h5>
+                        <h5 class="modal-title" id="my-modal-title">Bukti Infaq</h5>
                         <button class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data?</p>
+                        <img src="{{ asset('storage/bukti_infaq_web/' . $infaq_web->bukti_infaq) }}" width="100px">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
-    <!--/ Modal Delete -->
+    <!--/ Modal Bukti Infaq -->
+
+    <!-- Modal Validasi -->
+    <div class="modal fade" id="validasi_infaq" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="my-modal-title">Bukti Infaq</h5>
+                    <button class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img class="img-thumbnail" src="{{ asset('storage/bukti_infaq_web/' . $infaq_web->bukti_infaq) }}"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                    <form method="post" action="{{ route('pengurus.validasiInfaq', $infaq_web->id_infaq) }}">
+                        @csrf
+                        @method('PUT')
+                        @if($infaq_web->status_validasi == 0)
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-check"></i> Validasi</button>
+                        @else
+                            <p class="text-secondary">Sudah divalidasi</p>
+                        @endif    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ Modal Validasi -->
 
     <script type="text/javascript">
         $(function(){

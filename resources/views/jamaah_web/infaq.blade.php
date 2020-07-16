@@ -6,21 +6,7 @@
                 Infaq Baru 
             </button>
         </div>
-        @if(session('hapus'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ session('hapus') }}
-            </div>
-        @elseif(session('edit'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ session('edit') }}
-            </div>
-        @elseif(session('input'))
+        @if(session('input'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

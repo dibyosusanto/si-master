@@ -20,13 +20,13 @@
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $jamaah_web->nama_jamaah }}<i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->email }}<i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{ route('jamaah_web.profile', Auth::user()->id) }}">Profile</a>
                         <a class="dropdown-item" href="#">Activity Log</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+                            document.getElementById('logout-form').submit();"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Logout
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
@@ -101,7 +101,6 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        {{$jamaah_web->nama_jamaah}}
                     </div>
                 </nav>
             </div>
