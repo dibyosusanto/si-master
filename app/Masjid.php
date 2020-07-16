@@ -16,6 +16,10 @@ class Masjid extends Model
         return $this->hasMany('App\Jamaah_Masjid', 'id_masjid', 'id_masjid');
     }
 
+    public function infaq_masjid(){
+        return $this->hasMany('App\Infaq_Masjid', 'id_masjid', 'id_masjid');
+    }
+    
     public function infaq_web(){
         return $this->hasMany('App\Infaq_Web', 'id_masjid', 'id_masjid');
     }

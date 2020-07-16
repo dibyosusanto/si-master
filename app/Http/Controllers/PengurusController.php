@@ -7,6 +7,8 @@ use App\Pengurus;
 use App\Masjid;
 use App\Jamaah_Masjid;
 use App\User;
+use App\Infaq_Web;
+use App\Jamaah_Web;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -59,7 +61,10 @@ class PengurusController extends Controller
         $jmlJamaahMjd = DB::table('jamaah__masjids')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')
             ->count();
-        return view('pengurus.index', compact('jmlJamaahMjd'));
+        $jml_infaq_web = DB::table('infaq__webs')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')
+            ->count();
+        return view('pengurus.index', compact('jmlJamaahMjd', 'jml_infaq_web'));
     }
 
     public function lihatJamaah(){
@@ -128,6 +133,11 @@ class PengurusController extends Controller
         $jamaah = Jamaah_Masjid::find($id_jamaah);
         $jamaah->delete();
         return redirect(route('pengurus.lihatJamaah'))->with('sukses', $jamaah_masjid->nama_jamaah  . ' berhasil dihapus!');
+    }
+
+    public function infaq_web_all(){
+        $infaq_web_all = Infaq_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        return view('pengurus.infaq_web_all', compact('infaq_web_all'));
     }
     
 }

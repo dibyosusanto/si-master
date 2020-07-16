@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Infaq_Masjid extends Model
 {
-    //
+    protected $primaryKey = 'id_infaq';
+    protected $guarded = [];
+    public function jamaah_masjid(){
+        return $this->belongsTo('App\Jamaah_Masjid', 'id_jamaah', 'id_jamaah');
+    }
+
+    public function masjid(){
+        return $this->belongsTo('App\Masjid', 'id_masjid', 'id_masjid');
+    }
 }

@@ -13,5 +13,8 @@ class Jamaah_Masjid extends Model
     {
         return $this->belongsTo('App\Masjid', 'id_masjid', 'id_masjid');
     }
+    public function infaq_masjid(){
+        return $this->hasMany('App\Infaq_Masjid', 'id_masjid', 'id_masjid');
+    }
 
 }
