@@ -24,7 +24,15 @@ class Pengurus extends Model
         return $this->belongsTo('App\Masjid', 'id_masjid', 'id_masjid');
     }
 
-    public function akun(){
+    public function user(){
         return $this->hasOne('App\User', 'id', 'id_user');
+    }
+
+    public function infaq_masjid(){
+        return $this->hasMany('App\Infaq_Masjid', 'id_pengurus', 'id_pengurus');
+    }
+
+    public function infaq_web(){
+        return $this->hasMany('App\Infaq_Web', 'id_pengurus', 'id_pengurus');
     }
 }

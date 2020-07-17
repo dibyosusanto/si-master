@@ -62,7 +62,7 @@ Detail</a> |
                         <a class="btn btn-info btn-sm" href="{{ route('jamaah_masjid.edit', $j->id_jamaah) }}"> <i class="fas fa-pen    "></i> Edit</a> |
                         <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"> <i class="fa fa-minus-circle" aria-hidden="true"></i> Hapus </button>
                     </td> 
-                </tr>
+                </tr>           
                 @endforeach
             </tbody>
         </table>
@@ -124,7 +124,7 @@ Detail</a> |
     <!--/ Modal Insert -->
 
     <!-- Modal Delete-->
-    <form action="{{ route('jamaah_masjid.destroy', $j->id_jamaah) }}" method="post">
+    <form action="{{ route('jamaah_masjid.destroy', $j->id_jamaah ?? '') }}" method="post">
         @csrf
         @method('DELETE')
         <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">

@@ -8,13 +8,14 @@ use App\Masjid;
 use App\Jamaah_Masjid;
 use App\User;
 use App\Infaq_Web;
+use App\Infaq_Masjid;
 use App\Jamaah_Web;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Auth;
-
 class PengurusController extends Controller
 {
+    
     public function __construct()
     {
         $this->middleware('pengurus');
@@ -130,21 +131,67 @@ class PengurusController extends Controller
 
 
     public function jamaah_masjid_destroy(Request $request, $id_jamaah){
-        $jamaah = Jamaah_Masjid::find($id_jamaah);
-        $jamaah->delete();
+        $jamaah_masjid= Jamaah_Masjid::find($id_jamaah);
+        $jamaah_masjid->delete();
         return redirect(route('pengurus.lihatJamaah'))->with('sukses', $jamaah_masjid->nama_jamaah  . ' berhasil dihapus!');
     }
 
     public function infaq_web_all(){
         $infaq_web_all = Infaq_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
-        $sum_infaq = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
+        $sum_infaq_v = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->first();
-        return view('pengurus.infaq_web_all', compact('infaq_web_all', 'sum_infaq'));
+        $sum_infaq = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')->first();
+        return view('pengurus.infaq_web_all', compact('infaq_web_all', 'sum_infaq_v', 'sum_infaq'));
     }
     
     public function validasiInfaq(Request $request, $id){
         Infaq_Web::where('id_infaq', $id)
             ->update(['status_validasi' => 1]);
         return redirect(route('pengurus.infaq_web_all'));
+    }
+
+    public function infaq_web_valid()
+    {
+        $infaq_web_valid = Infaq_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->get();
+        $sum_infaq_v = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->first();
+        return view('pengurus.infaq_valid', compact('infaq_web_valid', 'sum_infaq_v'));
+    }
+
+    public function infaq_web_belum_valid()
+    {
+        $infaq_web_belum_valid = Infaq_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')->get();
+        $sum_infaq = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')->first();
+        return view('pengurus.infaq_belum_valid', compact('infaq_web_belum_valid', 'sum_infaq'));
+    }
+
+    public function infaq_masjid(){
+        $infaq_masjids = Infaq_Masjid::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        $jamaah_masjid = DB::table('jamaah__masjids')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        return view('pengurus.infaq_masjid', compact('infaq_masjids', 'jamaah_masjid'));
+    }
+
+    public function input_infaq(Request $request)
+    {
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
+        $this->validate($request, [
+            'tgl_infaq' => 'required',
+            'nominal' => 'required|integer',
+            'id_jamaah' => 'required'
+        ]);
+
+        $infaq_masjid = Infaq_Masjid::create([
+            'tgl_infaq' => $request->tgl_infaq,
+            'nominal' => $request->nominal,
+            'keterangan' => $request->keterangan,
+            'id_jamaah' => $request->id_jamaah,
+            'id_masjid' => $pengurus->id_masjid,
+            'id_pengurus' => $pengurus->id_pengurus
+        ]);
+
+        return redirect(route('pengurus.infaq_masjid'));
     }
 }

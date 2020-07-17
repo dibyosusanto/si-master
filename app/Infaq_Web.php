@@ -15,4 +15,8 @@ class Infaq_Web extends Model
     public function masjid(){
         return $this->belongsTo('App\Masjid', 'id_masjid', 'id_masjid');
     }
+
+    public function pengurus(){
+        return $this->belongsTo('App\Pengurus', 'id_pengurus', 'id_pengurus');
+    }
 }

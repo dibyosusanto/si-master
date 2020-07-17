@@ -1,6 +1,6 @@
 @extends('pengurus.master')
 @section('content')
-    <div class="my-4">
+<div class="my-4">
         <table id="myTable" class="table table-active table-hover table-bordered table-striped">
             <thead class="thead-dark">
                     <th>#</th>
@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <?php $no=1; ?>
-                @foreach($infaq_web_all as $infaq_web)
+                @foreach($infaq_web_belum_valid as $infaq_web)
                 <tr>
                     <td>{{ $no++ }}</td>
                     <td>{{ $infaq_web->tgl_infaq }}</td>
@@ -49,20 +49,10 @@
             </tbody>
             <tfoot class="bg-dark text-light table-borderless">
                 <tr>
-                    <td colspan="4" class="font-weight-bold">Total Infaq Yang Sudah Validasi</td>
-                    <td class="font-weight-bold text-center">Rp. </td>
-                    <td colspan="3" class="font-weight-bold text-right">{{ number_format($sum_infaq_v->total_infaq) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="font-weight-bold">Total Infaq Yang Sudah Validasi</td>
+                    <td colspan="4" class="font-weight-bold">Total Infaq Yang Belum Validasi</td>
                     <td class="font-weight-bold text-center">Rp. </td>
                     <td colspan="3" class="font-weight-bold text-right">{{ number_format($sum_infaq->total_infaq) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="font-weight-bold">Total Infaq Keseluruhan</td>
-                    <td class="font-weight-bold text-center">Rp. </td>
-                    <td colspan="3" class="font-weight-bold text-right">{{ number_format($sum_infaq->total_infaq + $sum_infaq_v->total_infaq) }}</td>
-                </tr>
+                </tr>  
             </tfoot>
         </table>
     </div>
