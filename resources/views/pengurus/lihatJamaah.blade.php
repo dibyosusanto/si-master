@@ -57,9 +57,8 @@
                         @endif
                     </td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_masjid.show', $j->id_jamaah) }}"><i class="fa fa-info-circle" aria-hidden="true"></i>
-Detail</a> |
-                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_masjid.edit', $j->id_jamaah) }}"> <i class="fas fa-pen    "></i> Edit</a> |
+                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_masjid.show', $j->id_jamaah) }}"><i class="fa fa-info-circle"></i>Detail</a> |
+                        <a class="btn btn-info btn-sm" href="{{ route('jamaah_masjid.edit', $j->id_jamaah) }}"> <i class="fas fa-pen"></i> Edit</a> |
                         <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"> <i class="fa fa-minus-circle" aria-hidden="true"></i> Hapus </button>
                     </td> 
                 </tr>           

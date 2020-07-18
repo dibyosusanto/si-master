@@ -191,7 +191,22 @@ class PengurusController extends Controller
             'id_masjid' => $pengurus->id_masjid,
             'id_pengurus' => $pengurus->id_pengurus
         ]);
-
         return redirect(route('pengurus.infaq_masjid'));
+    }
+
+    public function detail_infaq_masjid($id_infaq)
+    {
+        $detail_infaq = Infaq_Masjid::where('id_infaq', $id_infaq)->first();
+        return view('pengurus.detail_infaq_masjid', compact('detail_infaq'));
+    }
+
+    public function edit_infaq_masjid($id_infaq)
+    {
+        $jamaah_masjid = DB::table('jamaah__masjids')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        $pengurus_masjid = DB::table('penguruses')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        $infaq = Infaq_Masjid::where('id_infaq', $id_infaq)->first();
+        return view('pengurus.edit_infaq_masjid', compact('infaq', 'jamaah_masjid', 'pengurus_masjid'));
     }
 }

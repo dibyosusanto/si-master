@@ -5,12 +5,11 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insert-jamaah"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah Data </button>
         </div>
         <table id="myTable" class="table table-active table-hover table-bordered table-striped">
-            <thead class="thead-dark">
+            <thead class="thead-dark text-center">
                     <th>#</th>
                     <th>Tanggal Infaq</th>
                     <th>Nominal</th>
                     <th>Jamaah</th>
-                    <th>Keterangan</th>
                     <th>Diinput Oleh</th>
                     <th>Opsi</th>
             </thead>
@@ -19,19 +18,14 @@
                 @foreach($infaq_masjids as $infaq_masjid)
                 <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $infaq_masjid->tgl_infaq }}</td>
-                    <td>{{ number_format($infaq_masjid->nominal )}}</td>
-                    <td>{{ $infaq_masjid->jamaah_masjid->nama_jamaah . ' - ' . $infaq_masjid->jamaah_masjid->alamat}} </td>
-                    <td>
-                        @if($infaq_masjid->keterangan == null )
-                            <p> - </p>
-                        @else
-                            <p> {{ $infaq_masjid->keterangan }} </p>
-                        @endif
-                    </td>
+                    <td>{{ date('d/m/Y', strtotime($infaq_masjid->tgl_infaq)) }}</td>
+                    <td class="text-right">{{ number_format($infaq_masjid->nominal )}}</td>
+                    <td>{{ $infaq_masjid->jamaah_masjid->nama_jamaah}} </td>
                     <td>{{ $infaq_masjid->pengurus->nama_pengurus }}</td>
-                    <td>
-                        Button
+                    <td class="text-center">
+                        <a class="btn btn-info btn-sm" href="{{ route('pengurus.detail_infaq_masjid', $infaq_masjid->id_infaq) }}"><i class="fa fa-info-circle"></i>Detail</a>
+                        <a class="btn btn-info btn-sm" href="{{ route('pengurus.edit_infaq_masjid', $infaq_masjid->id_infaq) }}"> <i class="fas fa-pen"></i> Edit</a>
+                        <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i>Hapus</button>
                     </td>
                 </tr>
                 @endforeach

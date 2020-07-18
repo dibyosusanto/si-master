@@ -41,6 +41,8 @@ Route::get('/pengurus/infaq_web/sudah_validasi', 'PengurusController@infaq_web_v
 Route::get('/pengurus/infaq_web/belum_validasi', 'PengurusController@infaq_web_belum_valid')->name('pengurus.infaq_web_belum_valid');
 Route::get('/pengurus/infaq_masjid', 'PengurusController@infaq_masjid')->name('pengurus.infaq_masjid');
 Route::post('/pengurus/infaq_masjid/', 'PengurusController@input_infaq')->name('pengurus.input_infaq');
+Route::get('/pengurus/infaq_masjid/{id_infaq}', 'PengurusController@detail_infaq_masjid')->name('pengurus.detail_infaq_masjid');
+Route::get('/pengurus/infaq_masjid/{id_infaq}/edit', 'PengurusController@edit_infaq_masjid')->name('pengurus.edit_infaq_masjid');
 
 //Route Jamaah
 Route::get('/daftar/jamaah_web', 'JamaahWebRegisterController@getRegister')->name('jamaah_web.register');
