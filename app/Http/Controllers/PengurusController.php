@@ -133,7 +133,7 @@ class PengurusController extends Controller
     public function jamaah_masjid_destroy(Request $request, $id_jamaah){
         $jamaah_masjid= Jamaah_Masjid::find($id_jamaah);
         $jamaah_masjid->delete();
-        return redirect(route('pengurus.lihatJamaah'))->with('sukses', $jamaah_masjid->nama_jamaah  . ' berhasil dihapus!');
+        return redirect(route('pengurus.lihatJamaah'))->with('hapus', $jamaah_masjid->nama_jamaah  . ' berhasil dihapus!');
     }
 
     public function infaq_web_all(){
@@ -146,8 +146,12 @@ class PengurusController extends Controller
     }
     
     public function validasiInfaq(Request $request, $id){
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
         Infaq_Web::where('id_infaq', $id)
-            ->update(['status_validasi' => 1]);
+            ->update([
+                'status_validasi' => 1,
+                'id_pengurus' => $pengurus->id_pengurus
+            ]);
         return redirect(route('pengurus.infaq_web_all'));
     }
 
@@ -167,11 +171,19 @@ class PengurusController extends Controller
         return view('pengurus.infaq_belum_valid', compact('infaq_web_belum_valid', 'sum_infaq'));
     }
 
+    public function modal_bukti($id_infaq)
+    {
+        $bukti = Infaq_Web::where('id_infaq', $id_infaq)->first();
+        return view('pengurus.bukti', compact('bukti'));
+    }
+
     public function infaq_masjid(){
+        $sum_infaq = Infaq_Masjid::selectRaw('SUM(nominal) as total_infaq')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->first();
         $infaq_masjids = Infaq_Masjid::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
         $jamaah_masjid = DB::table('jamaah__masjids')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
-        return view('pengurus.infaq_masjid', compact('infaq_masjids', 'jamaah_masjid'));
+        return view('pengurus.infaq_masjid', compact('infaq_masjids', 'jamaah_masjid', 'sum_infaq'));
     }
 
     public function input_infaq(Request $request)
@@ -202,6 +214,7 @@ class PengurusController extends Controller
 
     public function edit_infaq_masjid($id_infaq)
     {
+        
         $jamaah_masjid = DB::table('jamaah__masjids')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
         $pengurus_masjid = DB::table('penguruses')
@@ -209,4 +222,32 @@ class PengurusController extends Controller
         $infaq = Infaq_Masjid::where('id_infaq', $id_infaq)->first();
         return view('pengurus.edit_infaq_masjid', compact('infaq', 'jamaah_masjid', 'pengurus_masjid'));
     }
+
+    public function update_infaq_masjid(Request $request, $id_infaq)
+    {
+        $this->validate($request, [
+            'tgl_infaq' => 'required',
+            'nominal' => 'required|integer',
+            'id_jamaah' => 'required'
+        ]);
+
+        $pengurus_masjid = Pengurus::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->first();
+        $infaq_masjid = Infaq_Masjid::find($id_infaq);
+        $infaq_masjid->nominal = $request->get('nominal');
+        $infaq_masjid->tgl_infaq = $request->get('tgl_infaq');
+        $infaq_masjid->keterangan = $request->get('keterangan');
+        $infaq_masjid->id_jamaah = $request->get('id_jamaah');
+        $infaq_masjid->id_pengurus = $pengurus_masjid->id_pengurus;
+        $infaq_masjid->save();
+
+        return redirect(route('pengurus.infaq_masjid'))->with('edit', 'Data berhasil diedit!');
+    }
+
+    public function delete_infaq_masjid($id_infaq)
+    {
+        $infaq_masjid = Infaq_Masjid::find($id_infaq);
+        $infaq_masjid->delete();
+        return redirect(route('pengurus.infaq_masjid'))->with('hapus', 'Data berhasil dihapus');
+    }
+    
 }

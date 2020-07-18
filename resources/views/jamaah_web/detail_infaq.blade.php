@@ -24,23 +24,30 @@
                     <div class="form-group col-6">
                         <label class="font-weight-bold">Status Validasi</label>
                         @if($detail_infaq->status_validasi == 0)
-                            <p class="badge badge-warning">Belum divalidasi</p>
+                            <br/><p class="badge badge-warning">Belum divalidasi</p>
                         @else
-                            <p class="badge badge-success">Sudah divalidasi</p>
+                            <br/><p class="badge badge-success">Sudah divalidasi</p>
                         @endif
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="font-weight-bold">Keterangan</label>
-                    @if($detail_infaq->keterangan == null )
-                        <p> - </p>
-                    @else
-                        <p> {{ $detail_infaq->keterangan }} </p>
-                    @endif
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-bold">Keterangan</label>
+                        @if($detail_infaq->keterangan == null )
+                            <p> - </p>
+                        @else
+                            <p> {{ $detail_infaq->keterangan }} </p>
+                        @endif
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-bold">Divalidasi Oleh</label>
+                        <p>{{ $detail_infaq->pengurus->nama_pengurus ?? 'Belum divalidasi' }}</p>
+                    </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="font-weight-bold">Bukti Infaq</label>
-                    <div class="img-thumbnail col-2"><img src="{{ asset('storage/bukti_infaq_web/' . $detail_infaq->bukti_infaq) }}"/></div>
+                    <br/><img src="{{ asset('storage/bukti_infaq_web/' . $detail_infaq->bukti_infaq) }}" width="100px" height="100px"/>
                 </div>
             </div>
             <div class="card-footer text-right">

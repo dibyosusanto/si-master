@@ -9,7 +9,7 @@
     <!-- Jumbotron Header -->
     <div class="container">
         <header class="jumbotron my-4 text-center">
-            <h1 class="display-4">Selamat Datang di Web SI-MASTER</h1>
+            <h1 class="display-4 font-weight-bold">Selamat Datang di Web SI-MASTER</h1>
             <p class="lead">
               “Hanyalah yang memakmurkan masjid-masjid Allah ialah orang-orang
               yang beriman kepada Allah dan hari kemudian, serta tetap mendirikan shalat,
@@ -34,11 +34,14 @@
           <div class="col-lg-6 order-lg-2">
             <div class="p-5">
               <img class="img-fluid rounded-circle" src="{{ asset('assets/img/izuddin-helmi-adnan-unsplash - Copy.jpg') }}" alt="">
+              <div class="mt-4">
+                <p class="text-center">(Sumber : Unsplash by Izuddin Helmi Adnan)</p>
+              </div>
             </div>
           </div>
           <div class="col-lg-6 order-lg-1">
             <div class="p-5">
-              <h2 class="display-4">Tentang Kami</h2>
+              <h2 class="display-4 font-weight-bold">Tentang Kami</h2>
               <hr class="divider my-4"/>
               <p>SI-MASTER adalah sebuah situs web yang dibuat untuk menghubungkan antara jamaah dengan masjid. 
                 Diharapkan dengan adanya SI-MASTER ini, jamaah lebih dimudahkan dalam mengakses informasi dari masjid - masjid yang telah bergabung

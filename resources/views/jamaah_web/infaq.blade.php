@@ -23,6 +23,7 @@
                     <th>Tanggal Infaq</th>
                     <th>Nominal</th>
                     <th>Masjid</th>
+                    <th>Status Validasi</th>
                     <th>Opsi</th>
             </thead>
                 
@@ -34,6 +35,13 @@
                     <td>{{ date('d F Y', strtotime($iw->tgl_infaq)) }}</td>
                     <td class="text-right">{{ number_format($iw->nominal) }}</td>
                     <td>{{ $iw->masjid->nama_masjid }}</td>
+                    <td>
+                        @if($iw->status_validasi == 0)
+                            <p class="badge badge-warning">Belum divalidasi</p>
+                        @else
+                            <p class="badge badge-success">Sudah divalidasi</p>
+                        @endif
+                    </td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ route('jamaah_web.detail_infaq', $iw->id_infaq) }}"><i class="fa fa-info-circle" aria-hidden="true"></i>Detail</a>
                     </td> 

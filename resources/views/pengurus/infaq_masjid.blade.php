@@ -4,6 +4,21 @@
         <div class="my-4">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insert-jamaah"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah Data </button>
         </div>
+        @if(session('edit'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ session('edit') }}
+            </div>
+        @elseif(session('hapus'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ session('hapus') }}
+            </div>
+        @endif
         <table id="myTable" class="table table-active table-hover table-bordered table-striped">
             <thead class="thead-dark text-center">
                     <th>#</th>
@@ -30,6 +45,13 @@
                 </tr>
                 @endforeach
             </tbody>
+            <tfoot class="bg-dark text-light table-borderless">
+                <tr>
+                    <td colspan="4">Total Infaq Masjid</td>
+                    <td class="text-right">Rp. </td>
+                    <td class="text-right">{{ number_format($sum_infaq->total_infaq) }}</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 
@@ -86,8 +108,33 @@
                 </form>
             </div>
         </div>
-
     <!--/ Modal Insert -->
+    
+    <!-- Modal Delete-->
+    <form action="{{ route('pengurus.delete_infaq_masjid', $infaq_masjid->id_infaq ?? '') }}" method="post">
+        @csrf
+        @method('DELETE')
+        <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="my-modal-title">Konfirmasi</h5>
+                        <button class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah anda yakin ingin menghapus data?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--/ Modal Delete -->
     <script type="text/javascript">
         $(function(){
         $(".datepicker").datepicker({

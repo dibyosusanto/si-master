@@ -27,7 +27,11 @@
             </div>
             <div class="form-group">
                 <label class="font-weight-bold">Keterangan</label>
-                <p> {{ $detail_infaq->keterangan }} </p>
+                @if($detail_infaq->keterangan == null )
+                    <p> - </p>
+                @else
+                    <p> {{ $detail_infaq->keterangan }} </p>
+                @endif
             </div>
         </div>
         <div class="card-footer text-right text-light">

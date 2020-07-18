@@ -30,19 +30,26 @@ Route::get('/pengurus/', 'PengurusController@index')->name('pengurus.index')->mi
 Route::get('/pengurus/jamaah/', 'PengurusController@lihatJamaah')->name('pengurus.lihatJamaah');
 Route::get('/pengurus/profile/{id}', 'PengurusController@profile')->name('pengurus.profile');
 Route::put('/pengurus/{id}', 'PengurusController@updateProfile')->name('pengurus.updateProfile');
+//Route Pengurus Jamaah
 Route::post('/pengurus/jamaah/', 'PengurusController@input_jamaah')->name('pengurus.input_jamaah');
 Route::get('/pengurus/jamaah/{id_jamaah}', 'PengurusController@jamaah_masjid_show')->name('jamaah_masjid.show');
 Route::get('/pengurus/jamaah/{id_jamaah}/edit', 'PengurusController@jamaah_masjid_edit')->name('jamaah_masjid.edit');
 Route::put('/pengurus/jamaah/{id_jamaah}', 'PengurusController@jamaah_masjid_update')->name('jamaah_masjid.update');
 Route::delete('/pengurus/jamaah/{id_jamaah}', 'PengurusController@jamaah_masjid_destroy')->name('jamaah_masjid.destroy');
+//Route Infaq Web
 Route::get('/pengurus/infaq_web', 'PengurusController@infaq_web_all')->name('pengurus.infaq_web_all');
 Route::put('/pengurus/infaq_web/{id}', 'PengurusController@validasiInfaq')->name('pengurus.validasiInfaq');
 Route::get('/pengurus/infaq_web/sudah_validasi', 'PengurusController@infaq_web_valid')->name('pengurus.infaq_web_valid');
 Route::get('/pengurus/infaq_web/belum_validasi', 'PengurusController@infaq_web_belum_valid')->name('pengurus.infaq_web_belum_valid');
+Route::get('/pengurus/infaq_web/{id_infaq}/bukti', 'PengurusController@modal_bukti')->name('pengurus.bukti_infaq');
+//Route Infaq Masjid
 Route::get('/pengurus/infaq_masjid', 'PengurusController@infaq_masjid')->name('pengurus.infaq_masjid');
 Route::post('/pengurus/infaq_masjid/', 'PengurusController@input_infaq')->name('pengurus.input_infaq');
 Route::get('/pengurus/infaq_masjid/{id_infaq}', 'PengurusController@detail_infaq_masjid')->name('pengurus.detail_infaq_masjid');
 Route::get('/pengurus/infaq_masjid/{id_infaq}/edit', 'PengurusController@edit_infaq_masjid')->name('pengurus.edit_infaq_masjid');
+Route::put('/pengurus/infaq_masjid/{id_infaq}', 'PengurusController@update_infaq_masjid')->name('pengurus.update_infaq_masjid');
+Route::delete('/pengurus/infaq_masjid/{id_infaq}', 'PengurusController@delete_infaq_masjid')->name('pengurus.delete_infaq_masjid');
+
 
 //Route Jamaah
 Route::get('/daftar/jamaah_web', 'JamaahWebRegisterController@getRegister')->name('jamaah_web.register');
