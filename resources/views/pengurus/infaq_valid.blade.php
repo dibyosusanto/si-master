@@ -21,7 +21,7 @@
                     <td>{{ $infaq_valid->jamaah_web->nama_jamaah }} </td>
                     <td>
                         <img src="{{ asset('storage/bukti_infaq_web/'. $infaq_valid->bukti_infaq) }}" width="100px" height="100px">
-                        <a class="badge badge-info" data-target="#bukti_infaq" data-toggle="modal">Lihat</a></td>
+                        <a class="badge badge-info" href="{{ route('pengurus.bukti_infaq', $infaq_valid->id_infaq) }}">Lihat</a></td>
                     <td>
                         @if($infaq_valid->keterangan == null )
                             <p> - </p>
@@ -49,24 +49,4 @@
         </table>
     </div>
 
-    <!-- Modal Bukti Infaq-->
-        <div class="modal fade" id="bukti_infaq" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="my-modal-title">Bukti Infaq</h5>
-                        <button class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="{{ asset('storage/bukti_infaq_web/' . $infaq_valid->bukti_infaq) }}" width="100px">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!--/ Modal Bukti Infaq -->
 @endsection

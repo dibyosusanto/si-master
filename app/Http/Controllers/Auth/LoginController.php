@@ -38,7 +38,7 @@ class LoginController extends Controller
                 $this->redirectTo = '/pengurus';
                 return $this->redirectTo;
                 break;
-            case 3 : // role 2 adalah pengurus
+            case 3 : // role 3 adalah jamaah_web
                     $this->redirectTo = '/jamaah_web';
                     return $this->redirectTo;
                     break;

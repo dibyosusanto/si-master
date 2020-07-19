@@ -49,7 +49,9 @@ Route::get('/pengurus/infaq_masjid/{id_infaq}', 'PengurusController@detail_infaq
 Route::get('/pengurus/infaq_masjid/{id_infaq}/edit', 'PengurusController@edit_infaq_masjid')->name('pengurus.edit_infaq_masjid');
 Route::put('/pengurus/infaq_masjid/{id_infaq}', 'PengurusController@update_infaq_masjid')->name('pengurus.update_infaq_masjid');
 Route::delete('/pengurus/infaq_masjid/{id_infaq}', 'PengurusController@delete_infaq_masjid')->name('pengurus.delete_infaq_masjid');
-
+//Route Zakat Fitrah Masjid
+Route::get('/pengurus/zakat_masjid', 'PengurusController@zakat_masjid')->name('pengurus.zakat_masjid');
+Route::post('pengurus/zakat_masjid/', 'PengurusController@input_zakat')->name('pengurus.input_zakat');
 
 //Route Jamaah
 Route::get('/daftar/jamaah_web', 'JamaahWebRegisterController@getRegister')->name('jamaah_web.register');

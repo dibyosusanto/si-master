@@ -35,4 +35,8 @@ class Pengurus extends Model
     public function infaq_web(){
         return $this->hasMany('App\Infaq_Web', 'id_pengurus', 'id_pengurus');
     }
+
+    public function zakat_masjid(){
+        return $this->hasMany('App\Zakat_Fitrah_Masjid', 'id_pengurus', 'id_pengurus');
+    }
 }

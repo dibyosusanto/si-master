@@ -10,9 +10,11 @@ use App\User;
 use App\Infaq_Web;
 use App\Infaq_Masjid;
 use App\Jamaah_Web;
+use App\Zakat_Fitrah_Masjid;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+
 class PengurusController extends Controller
 {
     
@@ -203,7 +205,7 @@ class PengurusController extends Controller
             'id_masjid' => $pengurus->id_masjid,
             'id_pengurus' => $pengurus->id_pengurus
         ]);
-        return redirect(route('pengurus.infaq_masjid'));
+        return redirect(route('pengurus.infaq_masjid'))->with('tambah', 'Data berhasil ditambahkan!');
     }
 
     public function detail_infaq_masjid($id_infaq)
@@ -249,5 +251,37 @@ class PengurusController extends Controller
         $infaq_masjid->delete();
         return redirect(route('pengurus.infaq_masjid'))->with('hapus', 'Data berhasil dihapus');
     }
+
+    public function zakat_masjid()
+    {
+        $jamaah_masjid = DB::table('jamaah__masjids')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        $zakat_masjids = Zakat_Fitrah_Masjid::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        return view('pengurus.zakat_masjid', compact('zakat_masjids', 'jamaah_masjid'));
+    }
+
+    public function input_zakat(Request $request)
+    {
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
+        // $this->validate($request, [
+        //     'tgl_zakat' => 'required',
+        //     'jenis' => 'required',
+        //     'banyaknya' => 'required',
+        //     'id_jamaah' => 'required'
+        // ]);
+
+        $zakat = Zakat_Fitrah_Masjid::create([
+            'tgl_zakat' => $request->tgl_zakat,
+            'jenis' => $request->jenis,
+            'banyaknya' => $request->banyaknya,
+            'keterangan' => $request->keterangan,
+            'id_jamaah' => $request->id_jamaah,
+            'id_masjid' => $pengurus->id_masjid,
+            'id_pengurus' => $pengurus->id_pengurus
+        ]);
+        return redirect(route('pengurus.zakat_masjid'))->with('tambah', 'Data berhasil ditambahkan!');
+    }
+
+    
     
 }

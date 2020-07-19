@@ -85,6 +85,29 @@
                                     </a>
                                 </nav>
                             </div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
+                                    Zakat Fitrah
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        Zakat Fitrah Web
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_all') }}">Semua</a>
+                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_valid') }}">Sudah divalidasi</a>
+                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_belum_valid') }}">Belum divalidasi</a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link" href="{{ route('pengurus.zakat_masjid') }}">
+                                        Zakat Fitrah Masjid
+                                    </a>
+                                </nav>
+                            </div>
                             <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
@@ -156,6 +179,15 @@
                 });
                 $('input').addClass('form-control');
             });
+        </script>
+        <script>
+            function hanyaAngka(evt) {
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+            
+                return false;
+                return true;
+            }
         </script>
     </body>
 </html>
