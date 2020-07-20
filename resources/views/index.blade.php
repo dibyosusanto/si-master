@@ -134,7 +134,7 @@
     </div>
     <!-- /.row -->
     
-    @extends('auth.login')
+    @include('auth.login')
     
   
   

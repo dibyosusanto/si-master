@@ -10,8 +10,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
         <link href="{{ asset('assets/pengurus/css/styles.css') }}" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <!-- <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" /> -->
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -47,10 +47,10 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Administrasi Masjid</div>
-                                <a class="nav-link" href="#">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>
-                                    Ringkasan
-                                </a>
+                            <a class="nav-link" href="{{ route('pengurus.ringkasan') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>
+                                Ringkasan
+                            </a>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                 Jamaah
@@ -108,14 +108,9 @@
                                     </a>
                                 </nav>
                             </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
+                                Pengeluaran
                             </a>
                         </div>
                     </div>
@@ -173,7 +168,7 @@
                     },
                 ],
                 language: {
-                    search: "Cari Jamaah",
+                    search: "_INPUT_",
                     searchPlaceholder: "Search..."
                 }
                 });
@@ -183,9 +178,8 @@
         <script>
             function hanyaAngka(evt) {
                 var charCode = (evt.which) ? evt.which : event.keyCode
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-            
-                return false;
+                if (charCode > 31 && (charCode < 48 || charCode > 57))            
+                    return false;
                 return true;
             }
         </script>

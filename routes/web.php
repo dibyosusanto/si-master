@@ -52,6 +52,15 @@ Route::delete('/pengurus/infaq_masjid/{id_infaq}', 'PengurusController@delete_in
 //Route Zakat Fitrah Masjid
 Route::get('/pengurus/zakat_masjid', 'PengurusController@zakat_masjid')->name('pengurus.zakat_masjid');
 Route::post('pengurus/zakat_masjid/', 'PengurusController@input_zakat')->name('pengurus.input_zakat');
+Route::post('/pengurus/zakat_masjid/muzakki', 'PengurusController@store_muzakki')->name('pengurus.store_muzakki');
+Route::get('/pengurus/zakat_masjid/{id_zakat}', 'PengurusController@detail_zakat_masjid')->name('pengurus.detail_zakat_masjid');
+//Route Pengeluaran
+Route::get('/pengurus/pengeluaran', 'PengurusController@pengeluaran')->name('pengurus.pengeluaran');
+Route::post('/pengurus/pengeluaran/', 'PengurusController@input_pengeluaran')->name('pengurus.input_pengeluaran');
+Route::get('/pengurus/pengeluaran/{id_pengeluaran}', 'PengurusController@detail_pengeluaran')->name('pengurus.detail_pengeluaran');
+Route::delete('/pengurus/pengeluaran/{id_pengeluaran}', 'PengurusController@delete_pengeluaran')->name('pengurus.delete_pengeluaran');
+//Route Ringkasan
+Route::get('/pengurus/ringkasan', 'PengurusController@ringkasan')->name('pengurus.ringkasan');
 
 //Route Jamaah
 Route::get('/daftar/jamaah_web', 'JamaahWebRegisterController@getRegister')->name('jamaah_web.register');

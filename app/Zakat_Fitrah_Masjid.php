@@ -18,5 +18,9 @@ class Zakat_Fitrah_Masjid extends Model
 
     public function pengurus(){
         return $this->belongsTo('App\Pengurus', 'id_pengurus', 'id_pengurus');
-    } 
+    }
+
+    public function muzakki_masjid(){
+        return $this->hasMany('App\Muzakki_Masjid', 'id_zakat', 'id_zakat');
+    }
 }

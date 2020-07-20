@@ -11,6 +11,8 @@ use App\Infaq_Web;
 use App\Infaq_Masjid;
 use App\Jamaah_Web;
 use App\Zakat_Fitrah_Masjid;
+use App\Kas_Keluar;
+use App\Muzakki_Masjid;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -263,25 +265,75 @@ class PengurusController extends Controller
     public function input_zakat(Request $request)
     {
         $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
-        // $this->validate($request, [
-        //     'tgl_zakat' => 'required',
-        //     'jenis' => 'required',
-        //     'banyaknya' => 'required',
-        //     'id_jamaah' => 'required'
-        // ]);
-
+        $this->validate($request, [
+            'tgl_zakat' => 'required',
+            'jenis' => 'required',
+            'banyaknya' => 'required',
+            'id_jamaah' => 'required'
+        ]);
         $zakat = Zakat_Fitrah_Masjid::create([
             'tgl_zakat' => $request->tgl_zakat,
             'jenis' => $request->jenis,
+            'jml_muzakki' => $request->jml_muzakki,
             'banyaknya' => $request->banyaknya,
             'keterangan' => $request->keterangan,
             'id_jamaah' => $request->id_jamaah,
             'id_masjid' => $pengurus->id_masjid,
             'id_pengurus' => $pengurus->id_pengurus
         ]);
-        return redirect(route('pengurus.zakat_masjid'))->with('tambah', 'Data berhasil ditambahkan!');
+        return view('pengurus.input_muzakki', ['id_zakat' => $zakat->id_zakat, 'jml_muzakki' => $zakat->jml_muzakki]);
     }
 
-    
+    public function store_muzakki(Request $request)
+    {        
+        $nama_muzakki = $request->nama_muzakki;
+        foreach($nama_muzakki as $key => $no){
+            $input['nama_muzakki'] = $nama_muzakki[$key];
+            $input['id_zakat'] = $request->id_zakat;
+            Muzakki_Masjid::create($input);
+        }
+        return redirect(route('pengurus.zakat_masjid'))->with('tambah', 'Data zakat berhasil disimpan');
+    }
+
+    public function detail_zakat_masjid($id_zakat)
+    {
+        $detail_zakat_masjid = Zakat_Fitrah_Masjid::where('id_zakat', $id_zakat)->first();
+        return view('pengurus.detail_zakat_masjid', compact('detail_zakat_masjid'));
+    }
+
+    public function pengeluaran()
+    {  
+        $pengeluaran_masjids = Kas_Keluar::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        return view('pengurus.pengeluaran', compact('pengeluaran_masjids'));
+    }    
+
+    public function input_pengeluaran(Request $request)
+    {
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
+        $pengeluaran = Kas_Keluar::create([
+            'tgl_pengeluaran' => $request->tgl_pengeluaran,
+            'nominal' => $request->nominal,
+            'keterangan' => $request->keterangan,
+            'id_pengurus' => $pengurus->id_pengurus,
+            'id_masjid' => $pengurus->id_masjid
+        ]);
+
+        return redirect(route('pengurus.pengeluaran'));
+    }
+
+    public function ringkasan()
+    {
+        $sum_infaq_masjid = Infaq_Masjid::selectRaw('SUM(nominal) as total_infaq_masjid')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->first();
+        $sum_infaq_v = Infaq_Web::selectRaw('SUM(nominal) as total_infaq_web')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->first();
+        $sum_zakat_masjid_beras = Zakat_Fitrah_Masjid::selectRaw('SUM(banyaknya) as total_zakat_masjid_beras')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and jenis = 1')->first();
+        $sum_zakat_masjid_uang = Zakat_Fitrah_Masjid::selectRaw('SUM(banyaknya) as total_zakat_masjid_uang')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and jenis = 2')->first();
+        $sum_pengeluaran = Kas_Keluar::selectRaw('SUM(nominal) as total_pengeluaran')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->first();
+        return view('pengurus.ringkasan', compact('sum_infaq_masjid', 'sum_infaq_v', 'sum_zakat_masjid_beras', 'sum_zakat_masjid_uang', 'sum_pengeluaran'));
+    }
     
 }

@@ -29,36 +29,23 @@
         <table id="myTable" class="table table-active table-hover table-bordered table-striped">
             <thead class="thead-dark text-center">
                     <th>#</th>
-                    <th>Tanggal Zakat</th>
-                    <th>Jenis</th>
-                    <th>Banyaknya</th>
-                    <th>Nama Jamaah</th>
+                    <th>Tanggal Pengeluaran</th>
+                    <th>Nominal</th>
+                    <th>Keterangan</th>
+                    <th>Diinput Oleh</th>
                     <th>Opsi</th>
             </thead>
             <tbody>
                 <?php $no=1; ?>
-                @foreach($zakat_masjids as $zakat_masjid)
+                @foreach($pengeluaran_masjids as $pengeluaran_masjid)
                 <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ date('d/m/Y', strtotime($zakat_masjid->tgl_zakat)) }}</td>
-                    <td>
-                        @if($zakat_masjid->jenis == 1)
-                            Beras
-                        @else
-                            Uang
-                        @endif
-                    </td>
-                    <td class="text-right">
-                        @if($zakat_masjid->jenis == 1)
-                            {{ $zakat_masjid->banyaknya . ' Liter'}}
-                        @else
-                            {{ 'Rp. ' . number_format($zakat_masjid->banyaknya) }}
-                        @endif
-                        
-                    </td>
-                    <td>{{ $zakat_masjid->jamaah_masjid->nama_jamaah }}</td>
-                    <td>
-                        <a class="btn btn-info btn-sm" href="{{ route('pengurus.detail_zakat_masjid', $zakat_masjid->id_zakat) }}"><i class="fa fa-info-circle"></i>Detail</a>
+                    <td>{{ date('d/m/Y', strtotime($pengeluaran_masjid->tgl_pengeluaran)) }}</td>
+                    <td class="text-right">{{ number_format($pengeluaran_masjid->nominal )}}</td>
+                    <td>{{ $pengeluaran_masjid->keterangan }}</td>
+                    <td>{{ $pengeluaran_masjid->pengurus->nama_pengurus }}</td>
+                    <td class="text-center">
+                        <a class="btn btn-info btn-sm" href="#"><i class="fa fa-info-circle"></i>Detail</a>
                         <a class="btn btn-info btn-sm" href="#"> <i class="fas fa-pen"></i> Edit</a>
                         <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i>Hapus</button>
                     </td>
@@ -67,9 +54,9 @@
             </tbody>
             <tfoot class="bg-dark text-light table-borderless">
                 <tr>
-                    <td colspan="4">Total Zakat Masjid</td>
+                    <td colspan="4">Total Infaq Masjid</td>
                     <td class="text-right">Rp. </td>
-                    <td class="text-right">Totalnya bray</td>
+                    <td class="text-right"></td>
                 </tr>
             </tfoot>
         </table>
@@ -81,52 +68,33 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Tambah Data Zakat</h5>
+                            <h5 class="modal-title">Tambah Data Pengeluaran</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                     <div class="modal-body">
                         <div class="container-fluid">
-                        <form action="{{ route('pengurus.input_zakat') }}" method="post" name="zakat" id="zakat">
+                        <form action="{{ route('pengurus.input_pengeluaran') }}" method="post">
                             @csrf
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="tgl_zakat" class="font-weight-bold">Tanggal Zakat</label>
-                                    <input type="date" id="#datepicker" class="form-control datepicker" name="tgl_zakat">
+                                    <label for="tgl_infaq">Tanggal Pengeluaran</label>
+                                    <input type="date" id="#datepicker" class="form-control datepicker" name="tgl_pengeluaran" placeholder="Masukkan Tanggal Pengeluaran">
                                 </div>
                                 <div class="form-group col-md-6 mb-0">
-                                    <label for="jenis" class="font-weight-bold">Jenis Zakat</label>
-                                    <select name="jenis" class="form-control" id="jenis">
-                                        <option value="" selected>--Pilih Jenis Zakat--</option>
-                                        <option value="1" id="jenis">Beras</option>
-                                        <option value="2" id="jenis">Uang</option>
-                                    </select>
+                                    <label for="nominal">Nominal</label>
+                                    <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp.</span>
+                                    </div>
+                                    <input type="number" class="form-control" name="nominal" placeholder="Masukkan Nominal">
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="jml_muzakki" class="font-weight-bold">Jumlah Muzakki</label>
-                                    <input type="text" name="jml_muzakki" id="jml_muzakki" class="form-control" onkeypress="return hanyaAngka (event)" onchange="Calculate()" onblur="stopCalculate()">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="banyaknya" class="font-weight-bold">Jumlah yang harus dibayar</label>
-                                    <input type="text" name="banyaknya" id="banyaknya" class="form-control" onkeypress="return hanyaAngka (event)" onchange="Calculate()" onblur="stopCalculate()" readonly>
-                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="keterangan" class="font-weight-bold">Keterangan</label>
-                                <input type="text" class="form-control" name="keterangan" placeholder="Masukkan Keterangan (jika perlu)">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_jamaah" class="font-weight-bold">Nama Jamaah</label>
-                                <select class="form-control" name="id_jamaah">
-                                    <option selected>--Pilih salah satu--</option>
-                                    @foreach($jamaah_masjid as $jamaah)
-                                        <option value="{{ $jamaah->id_jamaah }}">{{ $jamaah->nama_jamaah . ' - ' . $jamaah->alamat }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="alamat">Keterangan</label>
+                                <input type="text" class="form-control" name="keterangan" placeholder="Masukkan Keterangan">
                             </div>
                         </div>
                     </div>
@@ -141,7 +109,7 @@
     <!--/ Modal Insert -->
     
     <!-- Modal Delete-->
-    <form action="{{ route('pengurus.delete_infaq_masjid', $infaq_masjid->id_infaq ?? '') }}" method="post">
+    <form action="{{ route('pengurus.delete_pengeluaran', $pengeluaran_masjid->id_infaq ?? '') }}" method="post">
         @csrf
         @method('DELETE')
         <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
@@ -173,28 +141,5 @@
             todayHighlight: true,
         });
         });
-    </script>
-    <script type="text/javascript">
-        function startCalculate(){
-            interval = setInterval("Calculate()", 10);	
-        }
-        
-        function Calculate(){
-            var x = document.zakat.jenis.value;
-            
-            if(x==1){
-                var bayar=parseFloat(3.5);
-            }else if(x==2){
-                var bayar=40000;
-            }
-            var a = parseInt(document.zakat.jml_muzakki.value);
-            if(isNaN(a))a=0;
-            
-            document.zakat.banyaknya.value = parseFloat(a*bayar);
-        }
-        
-        function stopCalculate(){
-            interval = clearInterval();	
-        }
     </script>
 @endsection

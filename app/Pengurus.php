@@ -39,4 +39,8 @@ class Pengurus extends Model
     public function zakat_masjid(){
         return $this->hasMany('App\Zakat_Fitrah_Masjid', 'id_pengurus', 'id_pengurus');
     }
+    public function pengeluaran()
+    {
+        return $this->hasMany('App\Kas_Keluar', 'id_pengurus', 'id_pengurus');
+    }
 }
