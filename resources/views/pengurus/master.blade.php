@@ -24,7 +24,6 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->email }}<i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{ route('pengurus.profile', Auth::user()->id) }}">Profile</a>
-                        <a class="dropdown-item" href="#">Activity Log</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout
@@ -98,7 +97,7 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_all') }}">Semua</a>
+                                            <a class="nav-link" href="{{ route('pengurus.zakat_web_all') }}">Semua</a>
                                             <a class="nav-link" href="{{ route('pengurus.infaq_web_valid') }}">Sudah divalidasi</a>
                                             <a class="nav-link" href="{{ route('pengurus.infaq_web_belum_valid') }}">Belum divalidasi</a>
                                         </nav>
@@ -108,7 +107,7 @@
                                     </a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ route('pengurus.pengeluaran') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
                                 Pengeluaran
                             </a>

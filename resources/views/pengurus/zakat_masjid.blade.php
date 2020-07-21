@@ -59,7 +59,7 @@
                     <td>{{ $zakat_masjid->jamaah_masjid->nama_jamaah }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ route('pengurus.detail_zakat_masjid', $zakat_masjid->id_zakat) }}"><i class="fa fa-info-circle"></i>Detail</a>
-                        <a class="btn btn-info btn-sm" href="#"> <i class="fas fa-pen"></i> Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ route('pengurus.edit_zakat_masjid', $zakat_masjid->id_zakat) }}"> <i class="fas fa-pen"></i> Edit</a>
                         <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i>Hapus</button>
                     </td>
                 </tr>

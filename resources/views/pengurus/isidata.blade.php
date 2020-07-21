@@ -6,6 +6,14 @@
     @if(session('success'))
             <div>{{ session('success') }}</div>
     @endif
+    @if(session('lengkapi'))
+        <div class="mt-3 alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ session('lengkapi') }}
+        </div>
+    @endif
     <form action="{{ route('pengurus.store') }}" method="post">
         @csrf
         <div class="form-group">

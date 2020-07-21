@@ -2,7 +2,7 @@
 @section('content')
     <div class="jumbotron jumbotron-fluid my-4">
         <div class="container">
-            <h1 class="display-3">Selamat Datang {{ $jamaah_web->nama_jamaah }}</h1>
+            <h1 class="display-3">Selamat Datang {{ $jamaah_web->nama_jamaah ?? '' }} </h1>
             <p class="lead">Jumbo helper text</p>
             <hr class="my-2">
             <p>More info</p>

@@ -11,6 +11,7 @@ use App\Infaq_Web;
 use App\Infaq_Masjid;
 use App\Jamaah_Web;
 use App\Zakat_Fitrah_Masjid;
+use App\Zakat_Fitrah_Web;
 use App\Kas_Keluar;
 use App\Muzakki_Masjid;
 use Illuminate\Support\Facades\DB;
@@ -69,14 +70,26 @@ class PengurusController extends Controller
         $jml_infaq_web = DB::table('infaq__webs')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')
             ->count();
-        return view('pengurus.index', compact('jmlJamaahMjd', 'jml_infaq_web'));
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
+        if(!empty($pengurus)){
+            return view('pengurus.index', compact('jmlJamaahMjd', 'jml_infaq_web'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
+        
     }
 
     public function lihatJamaah(){
         $jamaah = DB::table('jamaah__masjids')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
-        return view('pengurus.lihatJamaah', compact('jamaah'));
-            
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
+        if(!empty($pengurus)){
+            return view('pengurus.lihatJamaah', compact('jamaah'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
     }
 
     public function create(){
@@ -141,12 +154,18 @@ class PengurusController extends Controller
     }
 
     public function infaq_web_all(){
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
         $infaq_web_all = Infaq_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
         $sum_infaq_v = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->first();
         $sum_infaq = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')->first();
-        return view('pengurus.infaq_web_all', compact('infaq_web_all', 'sum_infaq_v', 'sum_infaq'));
+        if(!empty($pengurus)){
+            return view('pengurus.infaq_web_all', compact('infaq_web_all', 'sum_infaq_v', 'sum_infaq'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
     }
     
     public function validasiInfaq(Request $request, $id){
@@ -161,18 +180,30 @@ class PengurusController extends Controller
 
     public function infaq_web_valid()
     {
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
         $infaq_web_valid = Infaq_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->get();
         $sum_infaq_v = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->first();
-        return view('pengurus.infaq_valid', compact('infaq_web_valid', 'sum_infaq_v'));
+        if(!empty($pengurus)){
+            return view('pengurus.infaq_valid', compact('infaq_web_valid', 'sum_infaq_v'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
     }
 
     public function infaq_web_belum_valid()
     {
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
         $infaq_web_belum_valid = Infaq_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')->get();
         $sum_infaq = Infaq_Web::selectRaw('SUM(nominal) as total_infaq')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')->first();
-        return view('pengurus.infaq_belum_valid', compact('infaq_web_belum_valid', 'sum_infaq'));
+        if(!empty($pengurus)){
+            return view('pengurus.infaq_belum_valid', compact('infaq_web_belum_valid', 'sum_infaq'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }    
     }
 
     public function modal_bukti($id_infaq)
@@ -182,12 +213,19 @@ class PengurusController extends Controller
     }
 
     public function infaq_masjid(){
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
         $sum_infaq = Infaq_Masjid::selectRaw('SUM(nominal) as total_infaq')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->first();
         $infaq_masjids = Infaq_Masjid::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
         $jamaah_masjid = DB::table('jamaah__masjids')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
-        return view('pengurus.infaq_masjid', compact('infaq_masjids', 'jamaah_masjid', 'sum_infaq'));
+        if(!empty($pengurus)){
+            return view('pengurus.infaq_masjid', compact('infaq_masjids', 'jamaah_masjid', 'sum_infaq'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
+        
     }
 
     public function input_infaq(Request $request)
@@ -256,10 +294,16 @@ class PengurusController extends Controller
 
     public function zakat_masjid()
     {
-        $jamaah_masjid = DB::table('jamaah__masjids')
-            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
+        $jamaah_masjid = Jamaah_Masjid::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
         $zakat_masjids = Zakat_Fitrah_Masjid::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
-        return view('pengurus.zakat_masjid', compact('zakat_masjids', 'jamaah_masjid'));
+        if(!empty($pengurus)){
+            return view('pengurus.zakat_masjid', compact('zakat_masjids', 'jamaah_masjid'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
+        
     }
 
     public function input_zakat(Request $request)
@@ -301,10 +345,25 @@ class PengurusController extends Controller
         return view('pengurus.detail_zakat_masjid', compact('detail_zakat_masjid'));
     }
 
+    public function edit_zakat_masjid($id_zakat)
+    {
+        $jamaah_masjid = Jamaah_Masjid::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        $pengurus_masjid = Pengurus::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        $detail_zakat_masjid = Zakat_Fitrah_Masjid::where('id_zakat', $id_zakat)->first();
+        return view('pengurus.edit_zakat_masjid', compact('detail_zakat_masjid', 'jamaah_masjid', 'pengurus_masjid'));
+    }
+
     public function pengeluaran()
     {  
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
         $pengeluaran_masjids = Kas_Keluar::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
-        return view('pengurus.pengeluaran', compact('pengeluaran_masjids'));
+        if(!empty($pengurus)){
+            return view('pengurus.pengeluaran', compact('pengeluaran_masjids'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
+        
     }    
 
     public function input_pengeluaran(Request $request)
@@ -321,8 +380,43 @@ class PengurusController extends Controller
         return redirect(route('pengurus.pengeluaran'));
     }
 
+    public function zakat_web_all()
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
+        $zakat_web_all = Zakat_Fitrah_Web::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
+        $sum_zakat_v = Zakat_Fitrah_Web::selectRaw('SUM(nominal) as total_zakat')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 1')->first();
+        $sum_zakat = Zakat_Fitrah_Web::selectRaw('SUM(nominal) as total_zakat')
+            ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and status_validasi = 0')->first();
+        if(!empty($pengurus)){
+            return view('pengurus.zakat_web', compact('zakat_web_all', 'sum_zakat_v', 'sum_zakat'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
+    }
+
+    public function bukti_zakat($id_zakat)
+    {
+        $bukti = Zakat_Fitrah_Web::where('id_zakat', $id_zakat)->first();
+        return view('pengurus.bukti_zakat', compact('bukti'));
+    }
+
+    public function validasi_zakat($id_zakat)
+    {
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
+        Zakat_Fitrah_Web::where('id_zakat', $id_zakat)
+            ->update([
+                'status_validasi' => 1,
+                'id_pengurus' => $pengurus->id_pengurus
+            ]);
+        return redirect(route('pengurus.zakat_web_all'));
+    }
+
     public function ringkasan()
     {
+        $user = User::where('id', Auth::user()->id)->first();
+        $pengurus = Pengurus::where('id_user', Auth::user()->id)->first();
         $sum_infaq_masjid = Infaq_Masjid::selectRaw('SUM(nominal) as total_infaq_masjid')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->first();
         $sum_infaq_v = Infaq_Web::selectRaw('SUM(nominal) as total_infaq_web')
@@ -333,7 +427,10 @@ class PengurusController extends Controller
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .') and jenis = 2')->first();
         $sum_pengeluaran = Kas_Keluar::selectRaw('SUM(nominal) as total_pengeluaran')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->first();
-        return view('pengurus.ringkasan', compact('sum_infaq_masjid', 'sum_infaq_v', 'sum_zakat_masjid_beras', 'sum_zakat_masjid_uang', 'sum_pengeluaran'));
-    }
-    
+        if(!empty($pengurus)){
+            return view('pengurus.ringkasan', compact('sum_infaq_masjid', 'sum_infaq_v', 'sum_zakat_masjid_beras', 'sum_zakat_masjid_uang', 'sum_pengeluaran'));
+        }else{
+            return redirect(route('pengurus.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
+        }
+    }    
 }

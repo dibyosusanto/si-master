@@ -54,6 +54,14 @@ Route::get('/pengurus/zakat_masjid', 'PengurusController@zakat_masjid')->name('p
 Route::post('pengurus/zakat_masjid/', 'PengurusController@input_zakat')->name('pengurus.input_zakat');
 Route::post('/pengurus/zakat_masjid/muzakki', 'PengurusController@store_muzakki')->name('pengurus.store_muzakki');
 Route::get('/pengurus/zakat_masjid/{id_zakat}', 'PengurusController@detail_zakat_masjid')->name('pengurus.detail_zakat_masjid');
+Route::get('/pengurus/zakat_masjid/{id_zakat}/edit', 'PengurusController@edit_zakat_masjid')->name('pengurus.edit_zakat_masjid');
+Route::put('/pengurus/zakat_masjid/{id_zakat}', 'PengurusController@update_zakat_masjid')->name('pengurus.update_zakat_masjid');
+Route::delete('/pengurus/zakat_masjid/{id_zakat}', 'PengurusController@delete_zakat_masjid')->name('pengurus.delete_zakat_masjid');
+//Route Zakat Web
+Route::get('/pengurus/zakat_web/', 'PengurusController@zakat_web_all')->name('pengurus.zakat_web_all');
+Route::get('/pengurus/zakat_web/{id_zakat}/bukti', 'PengurusController@bukti_zakat')->name('pengurus.bukti_zakat');
+Route::put('/pengurus/zakat_web/{id}', 'PengurusController@validasi_zakat')->name('pengurus.validasi_zakat');
+
 //Route Pengeluaran
 Route::get('/pengurus/pengeluaran', 'PengurusController@pengeluaran')->name('pengurus.pengeluaran');
 Route::post('/pengurus/pengeluaran/', 'PengurusController@input_pengeluaran')->name('pengurus.input_pengeluaran');
@@ -61,7 +69,7 @@ Route::get('/pengurus/pengeluaran/{id_pengeluaran}', 'PengurusController@detail_
 Route::delete('/pengurus/pengeluaran/{id_pengeluaran}', 'PengurusController@delete_pengeluaran')->name('pengurus.delete_pengeluaran');
 //Route Ringkasan
 Route::get('/pengurus/ringkasan', 'PengurusController@ringkasan')->name('pengurus.ringkasan');
-
+//---------------------------------------------------------------------------------------------------
 //Route Jamaah
 Route::get('/daftar/jamaah_web', 'JamaahWebRegisterController@getRegister')->name('jamaah_web.register');
 Route::post('/daftar/jamaah_web', 'JamaahWebRegisterController@postRegister')->name('jamaah_web.postRegister');
@@ -70,9 +78,19 @@ Route::post('/jamaah_web/', 'JamaahWebRegisterController@store')->name('jamaah_w
 Route::get('/jamaah_web/', 'JamaahWebController@index')->name('jamaah_web.index')->middleware('jamaah_web');
 Route::get('/jamaah_web/profile/{id}', 'JamaahWebController@profile')->name('jamaah_web.profile');
 Route::put('/jamaah_web/{id}', 'JamaahWebController@updateProfile')->name('jamaah_web.updateProfile');
+
+//Route Infaq
 Route::get('/jamaah_web/infaq/', 'JamaahWebController@lihatInfaq')->name('jamaah_web.lihatInfaq');
 Route::post('/jamaah_web/infaq/', 'JamaahWebController@inputInfaq')->name('jamaah_web.inputInfaq');
 Route::get('/jamaah_web/infaq/{id}', 'JamaahWebController@detail_infaq')->name('jamaah_web.detail_infaq');
+Route::get('/jamaah_web/infaq_valid', 'JamaahWebController@valid_infaq')->name('jamaah_web.valid_infaq');
+Route::get('/jamaah_web/infaq_belum_valid', 'JamaahWebController@infaq_belum_valid')->name('jamaah_web.infaq_belum_valid');
+
+//Route Zakat
+Route::get('/jamaah_web/zakat/', 'JamaahWebController@zakat')->name('jamaah_web.zakat');
+Route::post('/jamaah_web/zakat/', 'JamaahWebController@input_zakat')->name('jamaah_web.input_zakat');
+Route::post('/jamaah_web/zakat/muzakki', 'JamaahWebController@store_muzakki')->name('jamaah_web.store_muzakki');
+Route::get('/jamaah_web/zakat/{id_zakat}', 'JamaahWebController@detail_zakat')->name('jamaah_web.detail_zakat');
 
 Route::get('/admin/', 'Admin@index')->name('admin')->middleware('admin');
 
