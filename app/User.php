@@ -37,7 +37,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function pengurus(){
-        return $this->belongsTo('App\User', 'id', 'id_user');
+    public function pengurus()
+    {
+        return $this->hasOne('App\Pengurus', 'id_user', 'id');
+    }
+
+    public function jamaah_web()
+    {
+        return $this->hasOne('App\Jamaah_Web', 'id_user', 'id');
+    }
+
+    public function jenis_akses()
+    {
+        return $this->belongsTo('App\Role', 'role', 'id');
     }
 }

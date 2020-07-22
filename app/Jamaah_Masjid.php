@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Jamaah_Masjid extends Model
 {
     protected $guarded = [];
@@ -22,4 +22,10 @@ class Jamaah_Masjid extends Model
         return $this->hasMany('App\Zakat_Fitrah_Masjid', 'id_jamaah', 'id_jamaah');
     }
 
+    public function getAgeAtrribute()
+    {
+        return \Carbon::parse($this->atrributes['tgl_lahir'])->age;
+    }
+
+    
 }

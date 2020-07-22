@@ -28,7 +28,8 @@ class Jamaah_Web extends Model
         return $this->hasMany('App\Infaq_Web', 'id_jamaah', 'id_jamaah');
     }
 
-    public function user(){
-        return $this->hasOne('App\User', 'id_user', 'id');
-    }
+   public function user()
+   {
+       return $this->belongsTo('App\User', 'id_user', 'id');
+   }
 }

@@ -92,7 +92,12 @@ Route::post('/jamaah_web/zakat/', 'JamaahWebController@input_zakat')->name('jama
 Route::post('/jamaah_web/zakat/muzakki', 'JamaahWebController@store_muzakki')->name('jamaah_web.store_muzakki');
 Route::get('/jamaah_web/zakat/{id_zakat}', 'JamaahWebController@detail_zakat')->name('jamaah_web.detail_zakat');
 
-Route::get('/admin/', 'Admin@index')->name('admin')->middleware('admin');
+//Route Admin
+Route::get('/admin/', 'AdminController@index')->name('admin.index')->middleware('admin');
+Route::get('/admin/list_user', 'AdminController@list_user')->name('admin.list_user');
+Route::get('/admin/masjid', 'AdminController@masjid')->name('admin.masjid');
+Route::get('/admin/masjid/{id_masjid}', 'AdminController@detail_masjid')->name('admin.detail_masjid');
+
 
 Route::group(['prefix' => 'administrator', 'middleware' => 'auth:web'], function(){
     Route::get('/home', 'HomeController@index')->name('home');
