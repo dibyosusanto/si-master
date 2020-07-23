@@ -45,6 +45,11 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
+                            <div class="sb-sidenav-menu-heading">Pengumuman</div>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bullhorn"></i></div>
+                                Pengumuman
+                            </a>
                             <div class="sb-sidenav-menu-heading">Data Master</div>
                             <a class="nav-link" href="{{ route('admin.masjid') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-mosque"></i></div>
@@ -58,7 +63,8 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{ route('admin.list_user') }}">Semua User</a>
-                                    <a class="nav-link" href="#">Jamaah Web</a>
+                                    <a class="nav-link" href="#">Admin</a>
+                                    <a class="nav-link" href="{{ route('admin.list_jamaah_web') }}">Jamaah Web</a>
                                     <a class="nav-link" href="#">Pengurus</a>
                                 </nav>
                             </div>

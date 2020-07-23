@@ -34,7 +34,7 @@
         </div>
         <div class="form-group">
             <label for="alamat">No HP</label>
-            <input type="text" name="no_hp" class="form-control" placeholder="Masukkan No. HP">
+            <input type="text" name="no_hp" class="form-control" placeholder="Masukkan No. HP" onkeypress="return hanyaAngka(event)" minlength="11" maxlength="13" value="{{ old('no_hp') }}">
             @error('no_hp')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
             <label for="alamat">Alamat</label>
-            <input type="text" name="alamat" class="form-control" placeholder="Masukkan alamat">
+            <input type="text" name="alamat" class="form-control" placeholder="Masukkan alamat" value="{{ old('alamat') }}">
             @error('alamat')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -53,7 +53,7 @@
         
         <div class="form-group">
             <label for="tgl_lahir">Tanggal Lahir</label>
-            <input type="date" id="#datepicker" class="form-control datepicker" name="tgl_lahir" placeholder="Masukkan Tanggal Lahir">
+            <input type="date" id="#datepicker" class="form-control datepicker" name="tgl_lahir" value="{{ old('tgl_lahir') }}">
             @error('tgl_lahir')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

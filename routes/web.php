@@ -23,7 +23,7 @@ Route::post('/daftar/pengurus', 'PengurusRegisterController@postRegister')->name
 Route::get('/pengurus/isidata/{id}', 'PengurusRegisterController@isidata')->name('pengurus.create')->middleware('pengurus');
 Route::post('/pengurus/', 'PengurusRegisterController@store')->name('pengurus.store');
 
-Auth::routes(['register' => false, 'showLoginForm' => false, 'login'=>false]);
+Auth::routes(['verify' => true]);
 
 //Route Pengurus
 Route::get('/pengurus/', 'PengurusController@index')->name('pengurus.index')->middleware('pengurus');
@@ -97,6 +97,8 @@ Route::get('/admin/', 'AdminController@index')->name('admin.index')->middleware(
 Route::get('/admin/list_user', 'AdminController@list_user')->name('admin.list_user');
 Route::get('/admin/masjid', 'AdminController@masjid')->name('admin.masjid');
 Route::get('/admin/masjid/{id_masjid}', 'AdminController@detail_masjid')->name('admin.detail_masjid');
+Route::get('/admin/list_jamaah_web/', 'AdminController@list_jamaah_web')->name('admin.list_jamaah_web');
+Route::get('/admin/list_jamaah_web/{id_user}', 'AdminController@detail_jamaah_web')->name('admin.detail_jamaah_web');
 
 
 Route::group(['prefix' => 'administrator', 'middleware' => 'auth:web'], function(){

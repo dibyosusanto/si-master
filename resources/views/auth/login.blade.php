@@ -10,7 +10,7 @@
           <div class="card-group">
             <div class="card">
                 <div class="card-body">
-                    <img class="rounded mb-5 mx-auto d-block" src="{{ asset('logo/logo.png') }}" width="50%" height="100%">
+                    <img class="rounded mb-5 mx-auto d-block" src="{{ asset('logo/logo.png') }}" width="200px" height="100px">
 
                     <!-- ACTIONNYA MENGARAH PADA URL /LOGIN -->
                     <!-- UNTUK MENCARI TAU TUJUAN URI DARI ROUTE NAME DIBAWAH, PADA COMMAND LINE, KETIKKAN PHP ARTISAN ROUTE:LIST DAN CARI URI YANG MENGGUNAKAN METHOD POST -->
@@ -55,9 +55,8 @@
                                 </div>
                             </div>
                             @endif
-
                             <div class="col-6">
-                                <button class="btn btn-link px-0" type="button">Forgot password?</button>
+                                <a class="btn btn-link px-0" href="{{ route('password.request') }}">Forgot password?</a>
                             </div>
                             <div class="col-6 text-right">
                                 <button class="btn btn-primary px-4">Login</button>

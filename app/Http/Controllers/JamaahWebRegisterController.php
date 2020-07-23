@@ -52,19 +52,19 @@ class JamaahWebRegisterController extends Controller
     public function store(Request $request){
         $this->validate($request, [
             'nama_jamaah' => 'required|string|min:3',
-            'no_hp' => 'required|digits:11,13',
+            'no_hp' => 'required',
             'alamat' => 'required',
             'tgl_lahir' => 'required',
             'jenis_kelamin' => 'required',
         ]);
             $pengurus = Jamaah_Web::create([
-                'nama_jamaah' => $request->get('nama_jamaah'),
+                'nama_jamaah' => ucwords($request->get('nama_jamaah')),
                 'no_hp' => $request->get('no_hp'),
-                'alamat' => $request->get('alamat'),
+                'alamat' => ucwords($request->get('alamat')),
                 'tgl_lahir' => $request->get('tgl_lahir'),
                 'jenis_kelamin' => $request->get('jenis_kelamin'),
                 'id_user' => Auth::user()->id
             ]);
-            return redirect(route('jamaah_web.index'), ['data' => $request]);
+            return redirect(route('jamaah_web.index'), ['data' => $request])->with('sukses', 'Data berhasil disimpan!');
     }
 }

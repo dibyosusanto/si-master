@@ -19,7 +19,7 @@ class JamaahWebController extends Controller
     
     public function __construct()
     {
-        $this->middleware('jamaah_web');
+        $this->middleware(['jamaah_web', 'verified']);
     }
 
     public function index(){

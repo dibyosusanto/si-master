@@ -8,6 +8,7 @@ use App\Pengurus;
 use App\Masjid;
 use App\Infaq_Web;
 use App\Zakat_Fitrah_Masjid;
+use App\Jamaah_Web;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -16,7 +17,9 @@ class AdminController extends Controller
     {
         $user = User::all();
         $jml_user = $user->count();
-        return view('admin.index', compact('jml_user'));
+        $masjid = Masjid::all();
+        $jml_masjid = $masjid->count();
+        return view('admin.index', compact('jml_user', 'jml_masjid'));
     }
 
     public function list_user()
@@ -25,10 +28,15 @@ class AdminController extends Controller
         return view('admin.list_user', compact('users'));
     }
 
+    public function list_jamaah_web()
+    {
+        $jamaahs = User::where('role', 3)->get();
+        return view('admin.list_jamaah_web', compact('jamaahs'));
+    }
+
     public function masjid()
     {
-        $masjids = Masjid::all();
-        
+        $masjids = Masjid::all();        
         return view('admin.masjid', compact('masjids'));
     }
 
@@ -36,5 +44,11 @@ class AdminController extends Controller
     {
         $masjid = Masjid::where('id_masjid', $id_masjid)->first();
         return view('admin.detail_masjid', compact('masjid'));
+    }
+
+    public function detail_jamaah_web($id_user)
+    {   
+        $jamaah = Jamaah_Web::where('id_user', $id_user)->first();
+        return view('admin.detail_jamaah_web', compact('jamaah'));
     }
 }

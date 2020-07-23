@@ -12,19 +12,19 @@
                     <p class="text-right">{{ $jml_user }}</p>
                 </div>
                 <div class="card-footer bg-primary d-flex align-items-center justify-content-between">
-                    <a class="small text-light stretched-link" href="#">View Details</a>
+                    <a class="small text-light stretched-link" href="{{ route('admin.list_user') }}">View Details</a>
                     <div class="small text-light"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-white mb-4">
+            <div class="card bg-light text-primary mb-4">
                 <div class="card-body">
-                <label class="font-weight-bold">Infaq Belum divalidasi</label>
-                    <p class="text-right">#</p>
+                <label class="font-weight-bold">Total Masjid</label>
+                    <p class="text-right">{{ $jml_masjid }}</p>
                 </div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
+                <div class="card-footer d-flex align-items-center justify-content-between bg-primary">
+                    <a class="small text-white stretched-link" href="{{ route('admin.masjid') }}">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
