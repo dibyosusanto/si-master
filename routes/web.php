@@ -69,6 +69,7 @@ Route::get('/pengurus/pengeluaran/{id_pengeluaran}', 'PengurusController@detail_
 Route::delete('/pengurus/pengeluaran/{id_pengeluaran}', 'PengurusController@delete_pengeluaran')->name('pengurus.delete_pengeluaran');
 //Route Ringkasan
 Route::get('/pengurus/ringkasan', 'PengurusController@ringkasan')->name('pengurus.ringkasan');
+
 //---------------------------------------------------------------------------------------------------
 //Route Jamaah
 Route::get('/daftar/jamaah_web', 'JamaahWebRegisterController@getRegister')->name('jamaah_web.register');
@@ -91,15 +92,26 @@ Route::get('/jamaah_web/zakat/', 'JamaahWebController@zakat')->name('jamaah_web.
 Route::post('/jamaah_web/zakat/', 'JamaahWebController@input_zakat')->name('jamaah_web.input_zakat');
 Route::post('/jamaah_web/zakat/muzakki', 'JamaahWebController@store_muzakki')->name('jamaah_web.store_muzakki');
 Route::get('/jamaah_web/zakat/{id_zakat}', 'JamaahWebController@detail_zakat')->name('jamaah_web.detail_zakat');
-
+// ------------------------------------------------------------------------------------------------------------------
 //Route Admin
 Route::get('/admin/', 'AdminController@index')->name('admin.index')->middleware('admin');
 Route::get('/admin/list_user', 'AdminController@list_user')->name('admin.list_user');
 Route::get('/admin/masjid', 'AdminController@masjid')->name('admin.masjid');
 Route::get('/admin/masjid/{id_masjid}', 'AdminController@detail_masjid')->name('admin.detail_masjid');
+Route::get('/admin/list_admin/', 'AdminController@list_admin')->name('admin.list_admin');
 Route::get('/admin/list_jamaah_web/', 'AdminController@list_jamaah_web')->name('admin.list_jamaah_web');
 Route::get('/admin/list_jamaah_web/{id_user}', 'AdminController@detail_jamaah_web')->name('admin.detail_jamaah_web');
-
+Route::get('/admin/list_pengumuman/', 'AdminController@list_pengumuman')->name('admin.list_pengumuman');
+Route::post('/admin/masjid/', 'AdminController@input_masjid')->name('admin.input_masjid');
+Route::get('/admin/masjid/{id_masjid}/edit', 'AdminController@edit_masjid')->name('admin.edit_masjid');
+Route::put('/admin/masjid/{id_masjid}', 'AdminController@update_masjid')->name('admin.update_masjid');
+Route::delete('/admin/masjid/{id_masjid}', 'AdminController@destroy_masjid')->name('admin.destroy_masjid');
+Route::get('/admin/infaq_web/', 'AdminController@infaq_web')->name('admin.infaq_web');
+Route::get('/admin/infaq_web/bukti/{id_infaq}', 'AdminController@bukti_infaq')->name('admin.bukti_infaq');
+Route::get('/admin/infaq_web/{id_infaq}/detail', 'AdminController@detail_infaq_web')->name('admin.detail_infaq_web');
+Route::put('/admin/infaq_web/{id_infaq}', 'AdminController@validasi_infaq')->name('admin.validasi_infaq');
+Route::delete('/admin/infaq_web/{id_infaq}/', 'AdminController@destroy_infaq_web')->name('admin.destroy_infaq_web');
+Route::get('/admin/infaq_web/{id_infaq}/edit', 'AdminController@edit_infaq_web')->name('admin.edit_infaq_web');
 
 Route::group(['prefix' => 'administrator', 'middleware' => 'auth:web'], function(){
     Route::get('/home', 'HomeController@index')->name('home');

@@ -67,7 +67,7 @@ class JamaahWebController extends Controller
         $user->email = $request->get('email');
         $user->password = bcrypt($request->get('password'));
         $user->save();
-        return redirect(route('jamaah_web.profile', $id));
+        return redirect(route('jamaah_web.profile', $id))->with('status', 'Data berhasil diperbarui');
     }
 
     public function lihatInfaq()
@@ -137,7 +137,7 @@ class JamaahWebController extends Controller
                     'id_masjid' => $request->id_masjid,
                     'id_jamaah' => $jamaah_web->id_jamaah
                 ]);
-                return redirect(route('jamaah_web.lihatInfaq'))->with('input', 'Data berhasil diinput!');
+                return redirect(route('jamaah_web.lihatInfaq'))->with('status', 'Data berhasil diinput!');
             }    
         }else{
             return redirect(route('jamaah_web.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
@@ -193,7 +193,7 @@ class JamaahWebController extends Controller
                     'id_masjid' => $request->id_masjid,
                     'id_jamaah' => $jamaah_web->id_jamaah
                 ]);
-                return view('jamaah_web.input_muzakki', ['id_zakat' => $zakat->id_zakat, 'jml_muzakki' => $zakat->jml_muzakki]);
+                return view('jamaah_web.input_muzakki', ['id_zakat' => $zakat->id_zakat, 'jml_muzakki' => $zakat->jml_muzakki])->with('status', 'Data berhasil disimpan');
             }    
         }else{
             return redirect(route('jamaah_web.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
@@ -208,7 +208,7 @@ class JamaahWebController extends Controller
             $input['id_zakat'] = $request->id_zakat;
             Muzakki_Web::create($input);
         }
-        return redirect(route('jamaah_web.zakat'))->with('tambah', 'Data zakat berhasil disimpan');
+        return redirect(route('jamaah_web.zakat'))->with('status', 'Data zakat berhasil disimpan');
     }
 
     public function detail_zakat($id_zakat)

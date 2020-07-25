@@ -6,12 +6,12 @@
                 Infaq Baru 
             </button>
         </div>
-        @if(session('input'))
+        @if(session('status'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                {{ session('input') }}
+                {{ session('status') }}
             </div>
         @endif
         <script>
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-window-close    "></i> Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-window-close"></i> Close</button>
                         <button type="submit" class="btn btn-primary"> <i class="fas fa-save"></i> Save</button>
                     </div>
                 </div>

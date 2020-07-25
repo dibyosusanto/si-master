@@ -45,7 +45,7 @@ class VerificationController extends Controller
                     return $this->redirectTo;
                     break;
             default :
-                $this->redirectTo = '/login';
+                $this->redirectTo = '/';
         }
     }
 

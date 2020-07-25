@@ -29,7 +29,7 @@ class PengurusRegisterController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string',
+            'password' => 'required|string|confirmed',
             
         ]);
         

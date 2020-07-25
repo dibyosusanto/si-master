@@ -46,7 +46,7 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Pengumuman</div>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ route('admin.list_pengumuman') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-bullhorn"></i></div>
                                 Pengumuman
                             </a>
@@ -63,7 +63,7 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{ route('admin.list_user') }}">Semua User</a>
-                                    <a class="nav-link" href="#">Admin</a>
+                                    <a class="nav-link" href="{{ route('admin.list_admin') }}">Admin</a>
                                     <a class="nav-link" href="{{ route('admin.list_jamaah_web') }}">Jamaah Web</a>
                                     <a class="nav-link" href="#">Pengurus</a>
                                 </nav>
@@ -81,9 +81,7 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="#">Semua</a>
-                                            <a class="nav-link" href="#">Sudah divalidasi</a>
-                                            <a class="nav-link" href="#">Belum divalidasi</a>
+                                            <a class="nav-link" href="{{ route('admin.infaq_web') }}">Semua</a>
                                         </nav>
                                     </div>
                                     <a class="nav-link" href="#">
@@ -152,6 +150,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
         <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+        <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
         <script>
             $(document).ready( function () {
             $('#myTable').DataTable({
@@ -188,6 +187,13 @@
                     return false;
                 return true;
             }
+        </script>
+        <script>
+            var konten = document.getElementById("konten");
+            CKEDITOR.replace(konten,{
+                language:'en-gb'
+            });
+            CKEDITOR.config.allowedContent = true;
         </script>
     </body>
 </html>

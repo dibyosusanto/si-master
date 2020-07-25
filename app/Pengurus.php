@@ -49,4 +49,9 @@ class Pengurus extends Model
     {
         return $this->hasMany('App\Kas_Keluar', 'id_pengurus', 'id_pengurus');
     }
+
+    public function announcements()
+    {
+        return $this->hasMany('App\Announcements', 'id_pengurus', 'id_pengurus');
+    }
 }

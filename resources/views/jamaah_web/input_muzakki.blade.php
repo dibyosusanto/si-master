@@ -1,6 +1,14 @@
 @extends('jamaah_web.master')
 @section('content')
 <div class="mt-5">
+    @if(session('status'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ session('status') }}
+        </div>
+    @endif
     <form action="{{ route('jamaah_web.store_muzakki') }}" method="POST">
     @csrf
     @for($i = 1; $i <= $jml_muzakki; $i++)

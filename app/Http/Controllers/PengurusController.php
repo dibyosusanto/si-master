@@ -33,8 +33,6 @@ class PengurusController extends Controller
         }else{
             return redirect(route('pengurus.create', $user->id));
         }
-        
-        
     }
 
     public function updateProfile(Request $request, $id)
@@ -48,7 +46,6 @@ class PengurusController extends Controller
             'password' => 'required|string|confirmed',
         ]);
 
-
         $pengurus = Pengurus::where('id_user', $id)->first();
         $pengurus->nama_pengurus = ucwords($request->get('nama_pengurus'));
         $pengurus->no_hp = $request->get('no_hp');
@@ -59,7 +56,7 @@ class PengurusController extends Controller
         $user->email = $request->get('email');
         $user->password = bcrypt($request->get('password'));
         $user->save();
-        return redirect(route('pengurus.profile', $id));
+        return redirect(route('pengurus.profile', $id))->with('status', 'Data berhasil diperbarui');
     }
 
     public function index()
@@ -117,7 +114,7 @@ class PengurusController extends Controller
             'id_masjid' => $pengurus->id_masjid
         ]);
 
-        return redirect(route('pengurus.lihatJamaah'))->with('tambah', $jamaah_masjid->nama_jamaah  . ' berhasil ditambahkan!');
+        return redirect(route('pengurus.lihatJamaah'))->with('status', $jamaah_masjid->nama_jamaah  . ' berhasil ditambahkan!');
     }
 
     public function jamaah_masjid_show($id_jamaah){
@@ -143,14 +140,14 @@ class PengurusController extends Controller
         $jamaah_masjid->tgl_lahir = $request->get('tanggal_lahir');
 
         $jamaah_masjid->save();
-        return redirect(route('pengurus.lihatJamaah'))->with('edit', $jamaah_masjid->nama_jamaah  . ' berhasil diedit!');
+        return redirect(route('pengurus.lihatJamaah'))->with('status', $jamaah_masjid->nama_jamaah  . ' berhasil diedit!');
     }
 
 
     public function jamaah_masjid_destroy(Request $request, $id_jamaah){
         $jamaah_masjid= Jamaah_Masjid::find($id_jamaah);
         $jamaah_masjid->delete();
-        return redirect(route('pengurus.lihatJamaah'))->with('hapus', $jamaah_masjid->nama_jamaah  . ' berhasil dihapus!');
+        return redirect(route('pengurus.lihatJamaah'))->with('status', $jamaah_masjid->nama_jamaah  . ' berhasil dihapus!');
     }
 
     public function infaq_web_all(){
@@ -175,7 +172,7 @@ class PengurusController extends Controller
                 'status_validasi' => 1,
                 'id_pengurus' => $pengurus->id_pengurus
             ]);
-        return redirect(route('pengurus.infaq_web_all'));
+        return redirect(route('pengurus.infaq_web_all'))->with('status', 'Data berhasil divalidasi');
     }
 
     public function infaq_web_valid()
@@ -245,7 +242,7 @@ class PengurusController extends Controller
             'id_masjid' => $pengurus->id_masjid,
             'id_pengurus' => $pengurus->id_pengurus
         ]);
-        return redirect(route('pengurus.infaq_masjid'))->with('tambah', 'Data berhasil ditambahkan!');
+        return redirect(route('pengurus.infaq_masjid'))->with('status', 'Data berhasil ditambahkan!');
     }
 
     public function detail_infaq_masjid($id_infaq)
@@ -262,7 +259,7 @@ class PengurusController extends Controller
         $pengurus_masjid = DB::table('penguruses')
             ->whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
         $infaq = Infaq_Masjid::where('id_infaq', $id_infaq)->first();
-        return view('pengurus.edit_infaq_masjid', compact('infaq', 'jamaah_masjid', 'pengurus_masjid'));
+        return view('pengurus.edit_infaq_masjid', compact('infaq', 'jamaah_masjid', 'pengurus_masjid'))->with('status', 'Data berhasil diperbarui');
     }
 
     public function update_infaq_masjid(Request $request, $id_infaq)
@@ -282,14 +279,14 @@ class PengurusController extends Controller
         $infaq_masjid->id_pengurus = $pengurus_masjid->id_pengurus;
         $infaq_masjid->save();
 
-        return redirect(route('pengurus.infaq_masjid'))->with('edit', 'Data berhasil diedit!');
+        return redirect(route('pengurus.infaq_masjid'))->with('status', 'Data berhasil diedit!');
     }
 
     public function delete_infaq_masjid($id_infaq)
     {
         $infaq_masjid = Infaq_Masjid::find($id_infaq);
         $infaq_masjid->delete();
-        return redirect(route('pengurus.infaq_masjid'))->with('hapus', 'Data berhasil dihapus');
+        return redirect(route('pengurus.infaq_masjid'))->with('status', 'Data berhasil dihapus');
     }
 
     public function zakat_masjid()
@@ -325,7 +322,7 @@ class PengurusController extends Controller
             'id_masjid' => $pengurus->id_masjid,
             'id_pengurus' => $pengurus->id_pengurus
         ]);
-        return view('pengurus.input_muzakki', ['id_zakat' => $zakat->id_zakat, 'jml_muzakki' => $zakat->jml_muzakki]);
+        return view('pengurus.input_muzakki', ['id_zakat' => $zakat->id_zakat, 'jml_muzakki' => $zakat->jml_muzakki])->with('status', 'Data berhasil disimpan');
     }
 
     public function store_muzakki(Request $request)
@@ -336,7 +333,7 @@ class PengurusController extends Controller
             $input['id_zakat'] = $request->id_zakat;
             Muzakki_Masjid::create($input);
         }
-        return redirect(route('pengurus.zakat_masjid'))->with('tambah', 'Data zakat berhasil disimpan');
+        return redirect(route('pengurus.zakat_masjid'))->with('status', 'Data zakat berhasil disimpan');
     }
 
     public function detail_zakat_masjid($id_zakat)
@@ -350,7 +347,7 @@ class PengurusController extends Controller
         $jamaah_masjid = Jamaah_Masjid::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
         $pengurus_masjid = Pengurus::whereRaw('id_masjid = (select penguruses.id_masjid from penguruses where penguruses.id_user =  '. Auth::user()->id .')')->get();
         $detail_zakat_masjid = Zakat_Fitrah_Masjid::where('id_zakat', $id_zakat)->first();
-        return view('pengurus.edit_zakat_masjid', compact('detail_zakat_masjid', 'jamaah_masjid', 'pengurus_masjid'));
+        return view('pengurus.edit_zakat_masjid', compact('detail_zakat_masjid', 'jamaah_masjid', 'pengurus_masjid'))->with('status', 'Data berhasil diperbarui');
     }
 
     public function pengeluaran()
@@ -377,7 +374,7 @@ class PengurusController extends Controller
             'id_masjid' => $pengurus->id_masjid
         ]);
 
-        return redirect(route('pengurus.pengeluaran'));
+        return redirect(route('pengurus.pengeluaran'))->with('status', 'Data berhasil disimpan');
     }
 
     public function zakat_web_all()
@@ -410,7 +407,7 @@ class PengurusController extends Controller
                 'status_validasi' => 1,
                 'id_pengurus' => $pengurus->id_pengurus
             ]);
-        return redirect(route('pengurus.zakat_web_all'));
+        return redirect(route('pengurus.zakat_web_all'))->with('status', 'Data berhasil divalidasi');
     }
 
     public function ringkasan()
