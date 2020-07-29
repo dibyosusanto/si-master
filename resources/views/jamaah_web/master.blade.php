@@ -23,6 +23,7 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->email }}<i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{ route('jamaah_web.profile', Auth::user()->id) }}">Profile</a>
+                        <a class="dropdown-item" href="{{ route('jamaah_web.edit_kata_sandi', Auth::user()->id) }}">Change Password</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Logout
@@ -39,7 +40,7 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <div class="sb-sidenav-menu-heading">Dashboard</div>
                             <a class="nav-link" href="{{ route('jamaah_web.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
@@ -53,8 +54,8 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{ route('jamaah_web.lihatInfaq') }}">Semua</a>
-                                    <a class="nav-link" href="{{ route('jamaah_web.valid_infaq') }}">Sudah divalidasi</a>
-                                    <a class="nav-link" href="{{ route('jamaah_web.infaq_belum_valid') }}">Belum divalidasi</a>
+                                    <!-- <a class="nav-link" href="{{ route('jamaah_web.valid_infaq') }}">Sudah divalidasi</a>
+                                    <a class="nav-link" href="{{ route('jamaah_web.infaq_belum_valid') }}">Belum divalidasi</a> -->
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -65,8 +66,8 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <a class="nav-link" href="{{ route('jamaah_web.zakat') }}">Semua</a>
-                                    <a class="nav-link" href="#">Sudah divalidasi</a>
-                                    <a class="nav-link" href="#">Belum divalidasi</a>
+                                    <!-- <a class="nav-link" href="#">Sudah divalidasi</a>
+                                    <a class="nav-link" href="#">Belum divalidasi</a> -->
                                 </nav>
                             </div>
                         </div>
@@ -106,6 +107,35 @@
         <script>
             $(document).ready( function () {
             $('#infaq').DataTable({
+            dom: 
+                "<'row'<'col-sm-4 pull-left'B><'col-sm-3'l><'col-sm-5 pull-right'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text:'Excel',
+                        titleAttr: 'Data Jamaah',
+                        "className": 'btn btn-info'
+                    },
+                    {
+                        extend: 'print',
+                        text:'Print',
+                        titleAttr: 'Data Jamaah',
+                        "className": 'btn btn-info'
+                    },
+                ],
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search..."
+                }
+                });
+                $('input').addClass('form-control');
+            });
+        </script>
+        <script>
+            $(document).ready( function () {
+            $('#myTable').DataTable({
             dom: 
                 "<'row'<'col-sm-4 pull-left'B><'col-sm-3'l><'col-sm-5 pull-right'f>>" +
                 "<'row'<'col-sm-12'tr>>" +

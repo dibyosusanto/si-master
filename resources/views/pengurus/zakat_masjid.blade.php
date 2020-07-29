@@ -1,7 +1,7 @@
 @extends('pengurus.master')
 @section('content')
     <div class="my-4">
-        <div class="my-4">
+        <div class="mb-2">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insert-jamaah"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah Data </button>
         </div>
         @if(session('tambah'))
@@ -11,12 +11,12 @@
                 </button>
                 {{ session('tambah') }}
             </div>
-        @elseif(session('edit'))
+        @elseif(session('status'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                {{ session('edit') }}
+                {{ session('status') }}
             </div>
         @elseif(session('hapus'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -57,7 +57,7 @@
                         
                     </td>
                     <td>{{ $zakat_masjid->jamaah_masjid->nama_jamaah }}</td>
-                    <td>
+                    <td class="text-center">
                         <a class="btn btn-info btn-sm" href="{{ route('pengurus.detail_zakat_masjid', $zakat_masjid->id_zakat) }}"><i class="fa fa-info-circle"></i>Detail</a>
                         <a class="btn btn-info btn-sm" href="{{ route('pengurus.edit_zakat_masjid', $zakat_masjid->id_zakat) }}"> <i class="fas fa-pen"></i> Edit</a>
                         <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i>Hapus</button>
@@ -67,9 +67,17 @@
             </tbody>
             <tfoot class="bg-dark text-light table-borderless">
                 <tr>
-                    <td colspan="4">Total Zakat Masjid</td>
+                    <td colspan="4">Total Zakat Uang</td>
                     <td class="text-right">Rp. </td>
-                    <td class="text-right">Totalnya bray</td>
+                    <td class="text-right">
+                        {{ number_format($zakat_uang) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">Total Zakat Beras</td>
+                    <td colspan="2" class="text-right">
+                        {{ $zakat_beras }} Liter
+                    </td>
                 </tr>
             </tfoot>
         </table>
@@ -131,7 +139,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-window-close    "></i> Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-window-close"></i> Close</button>
                         <button type="submit" class="btn btn-primary"> <i class="fas fa-save"></i> Save</button>
                     </div>
                 </div>
@@ -141,7 +149,7 @@
     <!--/ Modal Insert -->
     
     <!-- Modal Delete-->
-    <form action="{{ route('pengurus.delete_infaq_masjid', $infaq_masjid->id_infaq ?? '') }}" method="post">
+    <form action="{{ route('pengurus.delete_zakat_masjid', $zakat_masjid->id_zakat ?? '') }}" method="post">
         @csrf
         @method('DELETE')
         <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">

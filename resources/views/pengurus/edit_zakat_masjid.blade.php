@@ -4,7 +4,7 @@
         <div class="card-header bg-dark text-light">
             <h5 class="card-title">{{ 'Data Zakat Fitrah ' . $detail_zakat_masjid->jamaah_masjid->nama_jamaah . ' - ' . date('d/m/Y' , strtotime($detail_zakat_masjid->tgl_zakat))  }}</h5>
         </div>
-        <form action="{{ route('pengurus.update_zakat_masjid', $detail_zakat_masjid->id_zakat) }}" name="zakat" id="zakat">
+        <form action="{{ route('pengurus.update_zakat_masjid', $detail_zakat_masjid->id_zakat) }}" name="zakat" id="zakat" method="post">
         @csrf
         @method('PUT')
             <div class="card-body">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label class="font-weight-bold">Tanggal zakat</label>
-                        <input type="date" id="#datepicker" class="form-control datepicker" name="tgl_infaq" value="{{ $detail_zakat_masjid->tgl_zakat }}">
+                        <input type="date" id="#datepicker" class="form-control datepicker" name="tgl_zakat" value="{{ $detail_zakat_masjid->tgl_zakat }}">
                     </div>
                 </div>
                 <div class="form-row">
@@ -47,7 +47,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="banyaknya" class="font-weight-bold">Jumlah yang harus dibayar</label>
-                        <input type="text" name="banyaknya" id="banyaknya" class="form-control" onload="tampilkanNilai()" onkeypress="return hanyaAngka (event)" onchange="Calculate()" onblur="stopCalculate()" readonly>
+                        <input type="text" name="banyaknya" id="banyaknya" class="form-control" onload="tampilNilai()" onkeypress="return hanyaAngka (event)" onchange="Calculate()" onblur="stopCalculate()" value="{{ $detail_zakat_masjid->banyaknya }}" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label class="font-weight-bold">Keterangan</label>
@@ -60,7 +60,8 @@
                 </div>
             </div>
             <div class="card-footer text-right text-light">
-                <a class="btn btn-primary" href="{{ route('pengurus.zakat_masjid') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali </a>
+                <a class="btn btn-outline-primary" href="{{ route('pengurus.zakat_masjid') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali </a>
+                <button class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
             </div>
             </div>
         </form>
@@ -89,6 +90,11 @@
 
             function tampilkanNilai(){
                 document.zakat.banyaknya.value = parseFloat(1000);
+            }
+        </script>
+        <script>
+            function tampilNilai(){
+                document.zakat.banyaknya.value = parseFloat({{ $detail_zakat_masjid->banyaknya }});
             }
         </script>
 @endsection

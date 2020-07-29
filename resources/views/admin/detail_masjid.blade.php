@@ -11,12 +11,26 @@
                     <p>{{ $masjid->nama_masjid }}</p>
                 </div>
                 <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Status Validasi</label>
+                    @if($masjid->status_validasi == 1)
+                        <span class="badge badge-pill badge-success">Sudah Divalidasi</span>
+                    @else
+                        <p><span class="badge badge-pill badge-warning">Belum Divalidasi</span> </p>
+                    @endif
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
                     <label class="font-weight-bold">Alamat</label>
                     <p>{{ $masjid->alamat }}</p>
                 </div>
                 <div class="form-group col-md-4">
                     <label class="font-weight-bold">No. Rekening</label>
                     <p>{{ $masjid->no_rekening }}</p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">No. Telepon</label>
+                    <p>{{ $masjid->no_tlp }}</p>
                 </div>
             </div>
             <div class="form-row">

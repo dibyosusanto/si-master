@@ -1,6 +1,14 @@
 @extends('admin.master')
 @section('content')
     <div class="my-4">
+        @if(session('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ session('status') }}
+            </div>
+        @endif
         <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#insert_admin"> <i class="fas fa-plus-circle"></i>Tambah Data</button>
         <table id="myTable" class="table table-active table-hover table-bordered table-striped">
             <thead class="thead-dark text-center">
@@ -42,21 +50,29 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('admin.input_masjid') }}" method="post">
+                    <form action="{{ route('admin.input_admin') }}" method="post">
                         @csrf
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label class="font-weight-bold">Nama Masjid</label>
-                                <input type="text" name="nama_masjid" class="form-control" value="{{ old('nama_masjid') }}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="font-weight-bold">No. Rekening</label>
-                                <input type="text" name="no_rekening" class="form-control" onkeypress="return hanyaAngka(event)" value="{{ old('no_rekening') }}">
-                            </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Email</label>
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Masukkan email">
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Alamat</label>
-                            <input type="text" class="form-control" name="alamat" value="{{ old('alamat') }}">
+                            <label class="font-weight-bold">Password</label>
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Konfirmasi Password</label>
+                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Masukkan konfirmasi password">
                         </div>
                     
                 </div>

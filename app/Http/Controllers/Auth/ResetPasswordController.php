@@ -26,5 +26,25 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo;
+    public function redirectTo()
+    {
+        switch(Auth::user()->role){
+            case 1 : //role 1 adalah admin
+                $this->redirectTo = '/admin';
+                return $this->redirectTo;
+                break;
+            case 2 : // role 2 adalah pengurus
+                $this->redirectTo = '/pengurus';
+                return $this->redirectTo;
+                break;
+            case 3 : // role 3 adalah jamaah_web
+                    $this->redirectTo = '/jamaah_web';
+                    return $this->redirectTo;
+                    break;
+            default :
+                $this->redirectTo = '/';
+        }
+    }
 }

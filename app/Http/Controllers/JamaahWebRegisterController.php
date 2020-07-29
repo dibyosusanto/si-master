@@ -57,7 +57,7 @@ class JamaahWebRegisterController extends Controller
             'tgl_lahir' => 'required',
             'jenis_kelamin' => 'required',
         ]);
-            $pengurus = Jamaah_Web::create([
+            $jamaah_web = Jamaah_Web::create([
                 'nama_jamaah' => ucwords($request->get('nama_jamaah')),
                 'no_hp' => $request->get('no_hp'),
                 'alamat' => ucwords($request->get('alamat')),
@@ -67,4 +67,6 @@ class JamaahWebRegisterController extends Controller
             ]);
             return redirect(route('jamaah_web.index'), ['data' => $request])->with('sukses', 'Data berhasil disimpan!');
     }
+
+    
 }

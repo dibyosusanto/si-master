@@ -65,7 +65,7 @@
                                     <a class="nav-link" href="{{ route('admin.list_user') }}">Semua User</a>
                                     <a class="nav-link" href="{{ route('admin.list_admin') }}">Admin</a>
                                     <a class="nav-link" href="{{ route('admin.list_jamaah_web') }}">Jamaah Web</a>
-                                    <a class="nav-link" href="#">Pengurus</a>
+                                    <a class="nav-link" href="{{ route('admin.list_pengurus') }}">Pengurus</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -84,7 +84,7 @@
                                             <a class="nav-link" href="{{ route('admin.infaq_web') }}">Semua</a>
                                         </nav>
                                     </div>
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('admin.infaq_masjid') }}">
                                         Infaq Masjid
                                     </a>
                                 </nav>
@@ -102,9 +102,9 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="#">Semua</a>
-                                            <a class="nav-link" href="#">Sudah divalidasi</a>
-                                            <a class="nav-link" href="#">Belum divalidasi</a>
+                                            <a class="nav-link" href="{{ route('admin.zakat_web') }}">Semua</a>
+                                            <!-- <a class="nav-link" href="#">Sudah divalidasi</a>
+                                            <a class="nav-link" href="#">Belum divalidasi</a> -->
                                         </nav>
                                     </div>
                                     <a class="nav-link" href="#">

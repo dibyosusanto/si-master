@@ -28,8 +28,31 @@
         </header>
     </div>
 
+    <section id="masjid">
+      <div class="container">
+      <hr>
+          <p class="font-weight-bold"> <i class="fas fa-mosque"></i> List Masjid Terdaftar</p>
+          <div class="align-items-center">
+            @include('guest.list_masjid')      
+          </div>
+      </div>
+      
+    </section>
+
+  
+    <section id="announcements">
+      <div class="container">
+        <hr class="divider">
+        <div class="align-items-center">
+          @include('guest.pengumuman')      
+        </div>
+      </div>
+      
+    </section>
+
     <section id="about">
     <div class="container">
+    <hr>
         <div class="row align-items-center">
           <div class="col-lg-6 order-lg-2">
             <div class="p-5">
@@ -43,7 +66,8 @@
             <div class="p-5">
               <h2 class="display-4 font-weight-bold">Tentang Kami</h2>
               <hr class="divider my-4"/>
-              <p>SI-MASTER adalah sebuah situs web yang dibuat untuk menghubungkan antara jamaah dengan masjid. 
+              <p class="text-justify">
+                SI-MASTER adalah sebuah situs web yang dibuat untuk menghubungkan antara jamaah dengan masjid.
                 Diharapkan dengan adanya SI-MASTER ini, jamaah lebih dimudahkan dalam mengakses informasi dari masjid - masjid yang telah bergabung
               </p>
             </div>
@@ -52,7 +76,7 @@
     </div>
     </section>
 
-    <section>
+    <section id="panduan"> 
     <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6">
@@ -62,9 +86,11 @@
           </div>
          <div class="col-lg-6">
             <div class="p-5">
-              <h2 class="display-4">We salute you!</h2>
+              <h2 class="display-4">Panduan Penggunaan</h2>
               <hr class="divider my-4"/>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+              <p>
+                Untuk panduan penggunaan situs web selengkapnya dapat dilihat pada link berikut ini :
+              </p>
             </div>
           </div>
         </div>
@@ -91,7 +117,7 @@
     </section>
     
     <!-- Card -->
-    <div class="row text-center justify-content-center">
+    <!-- <div class="row text-center justify-content-center">
       <div class="col-lg-3 col-md-6 mb-3">
         <div class="card h-100">
           <img class="card-img-top" src="{{ asset('assets/img/afdhal-n-unsplash.jpg') }}" alt="">
@@ -131,10 +157,25 @@
         </div>
       </div>
 
+      <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card h-100">
+          <div width="500" height="325">
+            <i class="fas fa-money-bill-wave-alt"></i>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Find Out More!</a>
+          </div>
+        </div>
+      </div> -->
+    <!--/Card-->
     </div>
     <!-- /.row -->
     
-    @include('auth.login')
+    
     
   
   

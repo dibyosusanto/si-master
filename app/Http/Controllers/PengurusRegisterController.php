@@ -45,7 +45,7 @@ class PengurusRegisterController extends Controller
 
     public function isidata($id){
         $data['masjid'] = DB::table('masjids')
-            ->select('id_masjid', 'nama_masjid')
+            ->select('id_masjid', 'nama_masjid')->where('status_validasi', '=', 1)
             ->get();
         $data['id'] = $id;
         return view('pengurus.isidata', $data);

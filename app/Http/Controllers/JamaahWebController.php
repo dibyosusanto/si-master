@@ -10,8 +10,10 @@ use App\User;
 use App\Infaq_Web;
 use App\Zakat_Fitrah_Web;
 use App\Muzakki_Web;
+use App\Announcements;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 
 class JamaahWebController extends Controller
@@ -24,9 +26,11 @@ class JamaahWebController extends Controller
 
     public function index(){
         $user = User::where('id', Auth::user()->id)->first();
+        $masjids = Masjid::where('status_validasi', 1)->get();
         $jamaah_web = Jamaah_Web::where('id_user', Auth::user()->id)->first();
+        $announcements = Announcements::where('publish', 1)->orderBy('created_at')->paginate(5);
         if(!empty($jamaah_web)){
-            return view('jamaah_web.index', compact('jamaah_web'));
+            return view('jamaah_web.index', compact('jamaah_web', 'announcements', 'masjids'));
         }else{
             return redirect(route('jamaah_web.create', $user->id))->with('lengkapi', 'Mohon lengkapi data diri terlebih dahulu!');
         }
@@ -50,8 +54,6 @@ class JamaahWebController extends Controller
             'alamat' => 'required',
             'tgl_lahir' => 'required',
             'jenis_kelamin' => 'required',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed',
         ]);
 
 
@@ -63,10 +65,7 @@ class JamaahWebController extends Controller
         $jamaah_web->tgl_lahir = $request->get('tgl_lahir');
         $jamaah_web->save();
 
-        $user = User::find($id);
-        $user->email = $request->get('email');
-        $user->password = bcrypt($request->get('password'));
-        $user->save();
+
         return redirect(route('jamaah_web.profile', $id))->with('status', 'Data berhasil diperbarui');
     }
 
@@ -217,4 +216,37 @@ class JamaahWebController extends Controller
         $detail_zakat = Zakat_Fitrah_Web::where('id_zakat', $id_zakat)->first();
         return view('jamaah_web.detail_zakat', compact('jamaah_web', 'detail_zakat'));
     }
+
+    public function detail_masjid($id_masjid)
+    {
+        $masjid = Masjid::where('id_masjid', $id_masjid)->first();
+        return view('jamaah_web.detail_masjid', compact('masjid'));
+    }
+
+    public function detail_pengumuman($id_announcement)
+    {
+        $announcement = Announcements::where('id_announcement', $id_announcement)->first();
+        return view('jamaah_web.detail_pengumuman', compact('announcement'));
+    }
+
+    public function edit_kata_sandi()
+   {
+       $user = User::where('id', Auth::user()->id)->first();
+       return view('jamaah_web.edit_kata_sandi');
+   } 
+   
+   public function update_kata_sandi(Request $request, $id_user)
+   {
+        $user = User::where('id', $id_user)->first();
+        if(!Hash::check($request->password, $user->password)){
+            return redirect(route('jamaah_web.edit_kata_sandi'))->with('alert', 'Password lama salah');
+        }
+        if($request->password_baru != $request->konfir_password){
+            return redirect(route('jamaah_web.edit_kata_sandi'))->with('alert', 'Password baru dan konfirmasi tidak sama');
+        }
+        $ubah = User::where('id', $id_user)->update([
+            'password' => Hash::make($request->password_baru)
+        ]);
+        return redirect(route('jamaah_web.edit_kata_sandi'))->with('status', 'Password berhasil diubah');
+   }
 }

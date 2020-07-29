@@ -1,16 +1,22 @@
 @extends('pengurus.master')
 @section('content')
     <div class="my-4">
+    @if(session('status'))
+        <div class="mt-3 alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ session('status') }}
+        </div>
+    @endif
         <table id="myTable" class="table table-active table-hover table-bordered table-striped">
             <thead class="thead-dark text-center">
                     <th>#</th>
                     <th>Tanggal Infaq</th>
                     <th>Nominal</th>
                     <th>Jamaah</th>
-                    <th>Bukti Infaq</th>
-                    <th>Keterangan</th>
                     <th>Status Validasi</th>
-                    <th>Validasi</th>
+                    <th>Opsi</th>
             </thead>
             <tbody>
                 <?php $no=1; ?>
@@ -21,28 +27,26 @@
                     <td class="text-right">{{ number_format($infaq_web->nominal )}}</td>
                     <td>{{ $infaq_web->jamaah_web->nama_jamaah }} </td>
                     <td>
-                        <img src="{{ asset('storage/bukti_infaq_web/'. $infaq_web->bukti_infaq) }}" width="100px" height="100px">
-                        <a class="badge badge-info" href="{{ route('pengurus.bukti_infaq', $infaq_web->id_infaq) }}">Lihat</a></td>
-                    <td>
-                        @if($infaq_web->keterangan == null )
-                            <p> - </p>
-                        @else
-                            <p> {{ $infaq_web->keterangan }} </p>
-                        @endif
-                    </td>
-                    <td>
                         @if($infaq_web->status_validasi == 0)
                             <p class="badge badge-warning">Belum divalidasi</p>
                         @else
                             <p class="badge badge-success">Sudah divalidasi</p>
                         @endif
                     </td>
-                    <td>
+                    <td class="text-center">
                        @if($infaq_web->status_validasi == 0)
-                            <button class="btn btn-sm btn-primary" data-target="#validasi_infaq" data-toggle="modal"><i class="fas fa-check"></i> Validasi</button>
+                       <form method="post" action="{{ route('pengurus.validasiInfaq', $infaq_web->id_infaq) }}">
+                            @csrf
+                            @method('PUT')
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-check"></i> Validasi</button>
+                            <a href="{{ route('pengurus.detail_infaq_web', $infaq_web->id_infaq) }}" class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i> Detail</a>
+                            <a href="{{ route('pengurus.edit_infaq_web', $infaq_web->id_infaq) }}" class="btn btn-sm btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>
                         @else
-                            <p class="text-secondary">Sudah divalidasi</p>
+                            <a href="{{ route('pengurus.detail_infaq_web', $infaq_web->id_infaq) }}" class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i> Detail</a>
+                            <a href="{{ route('pengurus.edit_infaq_web', $infaq_web->id_infaq) }}" class="btn btn-sm btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>
+                        </form>
                         @endif
+                        
                     </td> 
                 </tr>
                 @endforeach

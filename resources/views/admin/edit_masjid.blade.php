@@ -28,6 +28,35 @@
                     @enderror
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">No. Telepon</label>
+                    <input type="text" class="form-control @error('no_tlp') is-invalid @enderror" name="no_tlp" value="{{ $masjid->no_tlp }}" onkeypress="return hanyaAngka(event)" maxlength="15">
+                    @error('no_tlp')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">Status Validasi</label>
+                    <select name="status_validasi" class="form-control">
+                        @if($masjid->status_validasi == 1)
+                            <option value="1" selected>Sudah Validasi</option>
+                            <option value="0"> Belum Validasi </option>
+                        @else
+                            <option value="0" selected> Belum Validasi </option>
+                            <option value="1">Sudah Validasi</option>
+                        @endif
+                    </select>
+                    @error('no_tlp')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+            
             <div class="form-group">
                 <label class="font-weight-bold">Alamat</label>
                 <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ $masjid->alamat }}">

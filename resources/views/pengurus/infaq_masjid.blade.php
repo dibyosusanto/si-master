@@ -1,6 +1,14 @@
 @extends('pengurus.master')
 @section('content')
     <div class="my-4">
+    @if(session('status'))
+        <div class="mt-3 alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ session('status') }}
+        </div>
+    @endif
         <div class="my-4">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insert-jamaah"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah Data </button>
         </div>
@@ -56,7 +64,7 @@
                 <tr>
                     <td colspan="4">Total Infaq Masjid</td>
                     <td class="text-right">Rp. </td>
-                    <td class="text-right">{{ number_format($sum_infaq->total_infaq) }}</td>
+                    <td class="text-right">{{ number_format($infaq_masjids->total_infaq) }}</td>
                 </tr>
             </tfoot>
         </table>

@@ -4,26 +4,12 @@
         <div class="my-4">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insert-jamaah"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah Data </button>
         </div>
-        @if(session('tambah'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @if(session('status'))
+            <div class="mt-3 alert alert-success alert-dismissible fade show" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                {{ session('tambah') }}
-            </div>
-        @elseif(session('edit'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ session('edit') }}
-            </div>
-        @elseif(session('hapus'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ session('hapus') }}
+                {{ session('status') }}
             </div>
         @endif
         <table id="myTable" class="table table-active table-hover table-bordered table-striped">
@@ -45,20 +31,12 @@
                     <td>{{ $pengeluaran_masjid->keterangan }}</td>
                     <td>{{ $pengeluaran_masjid->pengurus->nama_pengurus }}</td>
                     <td class="text-center">
-                        <a class="btn btn-info btn-sm" href="#"><i class="fa fa-info-circle"></i>Detail</a>
-                        <a class="btn btn-info btn-sm" href="#"> <i class="fas fa-pen"></i> Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ route('pengurus.edit_pengeluaran', $pengeluaran_masjid->id_pengeluaran ) }}"> <i class="fas fa-pen"></i> Edit</a>
                         <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i>Hapus</button>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
-            <tfoot class="bg-dark text-light table-borderless">
-                <tr>
-                    <td colspan="4">Total Infaq Masjid</td>
-                    <td class="text-right">Rp. </td>
-                    <td class="text-right"></td>
-                </tr>
-            </tfoot>
         </table>
     </div>
 
@@ -109,7 +87,7 @@
     <!--/ Modal Insert -->
     
     <!-- Modal Delete-->
-    <form action="{{ route('pengurus.delete_pengeluaran', $pengeluaran_masjid->id_infaq ?? '') }}" method="post">
+    <form action="{{ route('pengurus.delete_pengeluaran', $pengeluaran_masjid->id_pengeluaran ?? '') }}" method="post">
         @csrf
         @method('DELETE')
         <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">

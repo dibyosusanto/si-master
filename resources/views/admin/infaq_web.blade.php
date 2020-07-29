@@ -70,7 +70,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"> <i class="fas fa-window-close"></i> Batal</button>
-                    <form method="post" action="{{ route('admin.destroy_infaq_web', $infaq_web->id_infaq) }}">
+                    <form method="post" action="{{ route('admin.destroy_infaq_web', $infaq_web->id_infaq ?? '') }}">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger"><i class="fas fa-trash-alt"></i> Hapus</button>

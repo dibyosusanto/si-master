@@ -16,7 +16,9 @@
                     <th>#</th>
                     <th>Nama Masjid</th>
                     <th>Alamat</th>
+                    <th>No. Telepon</th>
                     <th>No Rekening</th>
+                    <th>Status Validasi</th>
                     <th>Opsi</th>
                 </tr>
                     
@@ -28,7 +30,15 @@
                     <td>{{ $no++ }}</td>
                     <td>{{ $masjid->nama_masjid}}</td>
                     <td>{{ $masjid->alamat }}</td>
+                    <td>{{ $masjid->no_tlp }}</td>
                     <td>{{ $masjid->no_rekening }}</td>
+                    <td>
+                        @if($masjid->status_validasi == 1)
+                            <span class="badge badge-pill badge-success">Sudah Divalidasi</span>
+                        @else
+                            <span class="badge badge-pill badge-warning">Belum Divalidasi</span>
+                        @endif
+                    </td>
                     <td class="text-center">
                         <a href="{{ route('admin.detail_masjid', $masjid->id_masjid) }}" class="btn btn-info btn-sm"><i class="fas fa-info-circle"></i> Detail</a>
                         <a href="{{ route('admin.edit_masjid', $masjid->id_masjid) }}" class="btn btn-info btn-sm"><i class="fas fa-pen"></i> Edit</a>
@@ -72,6 +82,15 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">No. Telepon</label>
+                            <input type="text" name="no_tlp" class="form-control @error('no_tlp') is-invalid @enderror" onkeypress="return hanyaAngka(event)" value="{{ old('no_rekening') }}" placeholder="Masukkan No. Telepon" maxlength="15">
+                            @error('no_tlp')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold">Alamat</label>

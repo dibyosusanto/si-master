@@ -24,6 +24,7 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->email }}<i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{ route('pengurus.profile', Auth::user()->id) }}">Profile</a>
+                        <a class="dropdown-item" href="{{ route('pengurus.edit_kata_sandi', Auth::user()->id) }}">Change Password</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout
@@ -45,6 +46,11 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
+                            <div class="sb-sidenav-menu-heading">Pengumuman</div>
+                            <a class="nav-link" href="{{ route('pengurus.list_pengumuman') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bullhorn"></i></div>
+                                Pengumuman
+                            </a>
                             <div class="sb-sidenav-menu-heading">Administrasi Masjid</div>
                             <a class="nav-link" href="{{ route('pengurus.ringkasan') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>
@@ -58,7 +64,6 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{ route('pengurus.lihatJamaah') }}">Data Jamaah</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -75,8 +80,8 @@
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="{{ route('pengurus.infaq_web_all') }}">Semua</a>
-                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_valid') }}">Sudah divalidasi</a>
-                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_belum_valid') }}">Belum divalidasi</a>
+                                            <!-- <a class="nav-link" href="{{ route('pengurus.infaq_web_valid') }}">Sudah divalidasi</a>
+                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_belum_valid') }}">Belum divalidasi</a> -->
                                         </nav>
                                     </div>
                                     <a class="nav-link" href="{{ route('pengurus.infaq_masjid') }}">
@@ -91,15 +96,18 @@
                             </a>
                             <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                    <a class="nav-link" href="{{ route('pengurus.zakat_web_all') }}">
+                                        Zakat Fitrah Web
+                                    </a>
+                                    <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                                         Zakat Fitrah Web
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
+                                    </a> -->
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="{{ route('pengurus.zakat_web_all') }}">Semua</a>
-                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_valid') }}">Sudah divalidasi</a>
-                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_belum_valid') }}">Belum divalidasi</a>
+                                            <!-- <a class="nav-link" href="{{ route('pengurus.infaq_web_valid') }}">Sudah divalidasi</a>
+                                            <a class="nav-link" href="{{ route('pengurus.infaq_web_belum_valid') }}">Belum divalidasi</a> -->
                                         </nav>
                                     </div>
                                     <a class="nav-link" href="{{ route('pengurus.zakat_masjid') }}">
@@ -145,6 +153,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
         <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+        <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
         <script>
             $(document).ready( function () {
             $('#myTable').DataTable({
@@ -181,6 +190,13 @@
                     return false;
                 return true;
             }
+        </script>
+        <script>
+            var konten = document.getElementById("konten");
+            CKEDITOR.replace(konten,{
+                language:'en-gb'
+            });
+            CKEDITOR.config.allowedContent = true;
         </script>
     </body>
 </html>

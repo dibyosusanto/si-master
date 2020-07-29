@@ -1,69 +1,319 @@
 @extends('pengurus.master')
 @section('content')
-<div class="row">
-    <div class="col-5">
-        <table class="table table-striped table-bordered table-responsive table-hover mt-4 mb-2">
-            <tr>
-                <td colspan="3" class="bg-dark text-light text-center font-weight-bold">Total Infaq</td>
-            </tr>
-            <tr>
-                <td class="font-weight-bold">Infaq Masjid s/d Hari Ini</td>
-                <td>Rp. </td>
-                <td class="text-right">{{ number_format($sum_infaq_masjid->total_infaq_masjid) }}</td>
-            </tr>
-            <tr>
-                <td class="font-weight-bold">Infaq Sumber Web s/d Hari Ini</td>
-                <td>Rp. </td>
-                <td class="text-right">{{ number_format($sum_infaq_v->total_infaq_web) }}</td>
-            </tr>
-            <tr>
-                <td class="font-weight-bold">Total Infaq Keseluruhan s/d Hari Ini</td>
-                <td>Rp. </td>
-                <td class="text-right">{{ number_format( $sum_infaq_v->total_infaq_web + $sum_infaq_masjid->total_infaq_masjid) }}</td>
-            </tr>
-        </table>    
+    <div class="card mt-4">
+        <div class="card-header bg-dark text-light">
+            <h5>{{ 'Data ' . $masjid->nama_masjid . ' per tanggal ' . date('d/m/Y h:i:s', strtotime(\Carbon\Carbon::now())) }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Nama Masjid</label>
+                    <p>{{ $masjid->nama_masjid }}</p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Status Validasi</label>
+                    @if($masjid->status_validasi == 1)
+                        <span class="badge badge-pill badge-success">Sudah Divalidasi</span>
+                    @else
+                        <p><span class="badge badge-pill badge-warning">Belum Divalidasi</span> </p>
+                    @endif
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Alamat</label>
+                    <p>{{ $masjid->alamat }}</p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">No. Rekening</label>
+                    <p>{{ $masjid->no_rekening }}</p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">No. Telepon</label>
+                    <p>{{ $masjid->no_tlp }}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Jumlah Pengurus</label>
+                    <p>{{ $masjid->pengurus->count() }}</p>
+                </div>
+                <div class="form-group col-md-8">
+                    <label class="font-weight-bold">Daftar Pengurus</label>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>No. Hp</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                    @php $no=1 @endphp
+                    @forelse($masjid->pengurus as $pengurus)
+                        <tbody>
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $pengurus->nama_pengurus }}</td>
+                                <td>{{ $pengurus->alamat }}</td>
+                                <td>{{ $pengurus->no_hp }}</td>
+                                <td>{{ $pengurus->user->email }}</td>
+                            </tr>
+                        </tbody>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                    </table>         
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Jumlah Jamaah</label>
+                    <p>{{ $masjid->jamaah->count() }}</p>
+                </div>
+                <div class="form-group col-md-8">
+                    <label class="font-weight-bold">Daftar Jamaah</label>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>No. Hp</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Umur</th>
+                            </tr>
+                        </thead>
+                    @php $no=1 @endphp
+                    @forelse($masjid->jamaah as $jamaah)
+                        <tbody>
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $jamaah->nama_jamaah }}</td>
+                                <td>{{ $jamaah->alamat }}</td>
+                                <td>{{ $jamaah->no_hp }}</td>  
+                                <td>
+                                    @if($jamaah->jenis_kelamin == 'L')
+                                        {{ 'Laki-Laki' }}
+                                    @else
+                                        {{ 'Perempuan' }}
+                                    @endif
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($jamaah->tgl_lahir)->diff(\Carbon\Carbon::now())->format('%y') }}</td>
+                            </tr>
+                        </tbody>              
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                    </table>         
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Jumlah Infaq Masjid</label>
+                    <p>{{ $masjid->infaq_masjid->count() . ' infaq dengan total Rp. ' . number_format($masjid->infaq_masjid->sum('nominal')) }}</p>
+                </div>
+                <div class="form-group col-md-8">
+                    <label class="font-weight-bold">Daftar Infaq Masjid</label>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Tgl Infaq</th>
+                                <th>Nominal</th>
+                            </tr>
+                        </thead>
+                    @php $no=1 @endphp
+                    @forelse($masjid->infaq_masjid as $infaq_masjid)
+                        <tbody>
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $infaq_masjid->jamaah_masjid->nama_jamaah }}</td>
+                                <td>{{ date('d/m/Y', strtotime($infaq_masjid->tgl_infaq)) }}</td>
+                                <td>{{ 'Rp. ' . number_format($infaq_masjid->nominal) }}</td>  
+                            </tr>
+                        </tbody>              
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                    </table>         
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Jumlah Infaq Web</label>
+                    <p>{{ $masjid->infaq_web->count() . ' infaq dengan total Rp. ' . number_format($masjid->infaq_web->sum('nominal')) }}</p>
+                </div>
+                <div class="form-group col-md-8">
+                    <label class="font-weight-bold">Daftar Infaq Web</label>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Tgl Infaq</th>
+                                <th>Nominal</th>
+                            </tr>
+                        </thead>
+                    @php $no=1 @endphp
+                    @forelse($masjid->infaq_web as $infaq_web)
+                        <tbody>
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $infaq_web->jamaah_web->nama_jamaah }}</td>
+                                <td>{{ date('d/m/Y', strtotime($infaq_web->tgl_infaq)) }}</td>
+                                <td>{{ 'Rp. ' . number_format($infaq_web->nominal) }}</td>  
+                            </tr>
+                        </tbody>              
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                    </table>         
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Jumlah Zakat Web</label>
+                    <p>{{ $masjid->zakat_web->count() . ' zakat dengan total Rp. ' . number_format($masjid->zakat_web->sum('nominal')) }}</p>
+                </div>
+                <div class="form-group col-md-8">
+                    <label class="font-weight-bold">Daftar Zakat Web</label>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Tgl Zakat</th>
+                                <th>Nominal</th>
+                                <th>Muzakki</th>
+                            </tr>
+                        </thead>
+                    @php $no=1 @endphp
+                    @forelse($masjid->zakat_web as $zakat_web)
+                        <tbody>
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $zakat_web->jamaah_web->nama_jamaah }}</td>
+                                <td>{{ date('d/m/Y', strtotime($zakat_web->tgl_zakat)) }}</td>
+                                <td>{{ 'Rp. ' . number_format($zakat_web->nominal) }}</td>  
+                                <td>{{ $zakat_web->muzakki_web->count() }}</td>
+                            </tr>
+                        </tbody>              
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                    </table>         
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Jumlah Zakat Masjid</label>
+                    <p>{{ $masjid->zakat_masjid->count() . ' zakat dengan total : ' }}</p>
+                    <p>
+                        @foreach($masjid->zakat_masjid as $zakat_masjid)
+                            @if($zakat_masjid->jenis == 1)
+                                {{ $zakat_masjid->banyaknya . ' Liter Beras dan Uang'}}
+                            @else
+                                {{ 'Rp. ' . number_format($zakat_masjid->banyaknya) }}
+                            @endif
+                        @endforeach
+                    </p>
+                </div>
+                <div class="form-group col-md-8">
+                    <label class="font-weight-bold">Daftar Zakat Masjid</label>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Tgl Zakat</th>
+                                <th>Nominal</th>
+                                <th>Muzakki</th>
+                            </tr>
+                        </thead>
+                    @php $no=1 @endphp
+                    @forelse($masjid->zakat_masjid as $zakat_masjid)
+                        <tbody>
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $zakat_masjid->jamaah_masjid->nama_jamaah }}</td>
+                                <td>{{ date('d/m/Y', strtotime($zakat_masjid->tgl_zakat)) }}</td>
+                                <td>
+                                @if($zakat_masjid->jenis == 1)
+                                    {{ $zakat_masjid->banyaknya . ' Liter'}}
+                                @else
+                                    {{ 'Rp. ' . number_format($zakat_masjid->banyaknya) }}
+                                @endif
+                                </td>
+                                <td>{{ $zakat_masjid->muzakki_masjid->count() }}</td>
+                            </tr>
+                        </tbody>              
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                    </table>         
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Total Pengeluaran</label>
+                    <p>{{ $masjid->pengeluaran->count() . ' pengeluaran dengan total Rp.  ' . number_format($masjid->pengeluaran->sum('nominal')) }}</p>
+                </div>
+                <div class="form-group col-md-8">
+                    <label class="font-weight-bold">Daftar Pengeluaran</label>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tgl Pengeluaran</th>
+                                <th>Nominal</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                    @php $no=1 @endphp
+                    @forelse($masjid->pengeluaran as $pengeluaran)
+                        <tbody>
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ date('d/m/Y', strtotime($pengeluaran->tgl_pengeluaran)) }}</td>
+                                <td>{{ 'Rp. ' . number_format($pengeluaran->nominal) }}</td>
+                                <td>{{ $pengeluaran->keterangan }}</td>
+                            </tr>
+                        </tbody>              
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                    </table>         
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="font-weight-bold">Saldo Akhir</label>
+                </div>
+                <div class="form-group col-md-6 font-weight-bold">
+                    <p class="text text-primary">{{ 'Rp. ' . number_format($masjid->infaq_masjid->sum('nominal') + $masjid->infaq_web->sum('nominal') - $masjid->pengeluaran->sum('nominal')) }}</p>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-footer bg-dark text-light text-right">
+            <a href="{{ route('pengurus.index') }}" class="btn btn-primary"> <i class="fas fa-arrow-left"></i> Kembali</a>
+        </div>
     </div>
-    <div class="col-5">
-        <table class="table table-striped table-bordered table-responsive table-hover mt-4 mb-2">
-            <tr>
-                <td colspan="3" class="bg-dark text-light text-center font-weight-bold">Saldo Kas</td>
-            </tr>
-            <tr>
-                <td class="font-weight-bold">Total Infaq Keseluruhan s/d Hari Ini</td>
-                <td>Rp. </td>
-                <td class="text-right">{{ number_format( $sum_infaq_v->total_infaq_web + $sum_infaq_masjid->total_infaq_masjid) }}</td>
-            </tr>
-            <tr>
-                <td class="font-weight-bold">Total Pengeluaran s/d Hari Ini</td>
-                <td>Rp. </td>
-                <td class="text-right">{{ number_format( $sum_pengeluaran->total_pengeluaran) }}</td>
-            </tr>
-            <tr>
-                <td class="font-weight-bold">Saldo Kas s/d Hari Ini</td>
-                <td>Rp. </td>
-                <td class="text-right">{{ number_format( ($sum_infaq_v->total_infaq_web + $sum_infaq_masjid->total_infaq_masjid) - $sum_pengeluaran->total_pengeluaran) }}</td>
-            </tr>
-        </table>
-    </div>
-</div>
-
-
-<table class="table table-striped table-bordered table-responsive table-hover mt-4 mb-2">
-    <tr>
-        <td colspan="3" class="bg-dark text-light text-center font-weight-bold">Total Zakat</td>
-    </tr>
-    <tr>
-        <td class="font-weight-bold">Zakat Masjid Uang s/d Hari Ini</td>
-        <td>Rp. </td>
-        <td class="text-right">{{ number_format($sum_zakat_masjid_uang->total_zakat_masjid_uang) }}</td>
-    </tr>
-    <tr>
-        <td class="font-weight-bold">Zakat Masjid Beras s/d Hari Ini</td>
-        <td class="text-right" colspan=2>{{ $sum_zakat_masjid_beras->total_zakat_masjid_beras . ' Liter'}}</td>
-    </tr>
-</table>
-
-
-
-
 @endsection

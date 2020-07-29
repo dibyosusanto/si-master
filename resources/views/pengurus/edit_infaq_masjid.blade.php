@@ -32,22 +32,11 @@
                     <input type="date" id="#datepicker" class="form-control datepicker" name="tgl_infaq" value="{{ $infaq->tgl_infaq }}">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="font-weight-bold">Diinput/Diubah Oleh</label>
-                    <select name="id_pengurus" class="form-control">                    
-                        @foreach($pengurus_masjid as $pengurus)
-                            @if($pengurus->id_pengurus == $infaq->id_pengurus)
-                                <option value="{{ $infaq->id_pengurus }}" selected>{{ $infaq->pengurus->nama_pengurus }}</option>
-                            @else
-                                <option value="{{ $pengurus->id_pengurus }}">{{ $pengurus->nama_pengurus }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
+                    <label class="font-weight-bold">Keterangan</label>
+                    <input type="text" name="keterangan" value="{{ $infaq->keterangan }}">
+                </div>    
             </div>
-            <div class="form-group">
-                <label class="font-weight-bold">Keterangan</label>
-                <input type="text" name="keterangan" value="{{ $infaq->keterangan }}">
-            </div>
+            
         </div>
         <div class="card-footer text-right text-light">
             <a class="btn btn-outline-primary" href="{{ route('pengurus.infaq_masjid') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali </a>

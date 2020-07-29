@@ -7,6 +7,7 @@
         @yield('title')
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/si-master.css') }}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
     </head>
 
     <body>
@@ -25,21 +26,24 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#masjid">Masjid</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#about">Tentang Kami</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Infaq</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Zakat</a>
+                            <a class="nav-link" href="{{ route('index.faq') }}">FAQ</a>
                         </li>
                         @if (Route::has('login'))
                             @auth
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#"> <img height=30px src="{{ asset('assets/img/user.png') }}"> </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">Keluar
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </li>
                             
                             @else
@@ -67,6 +71,16 @@
         <script src="{{ asset('assets/js/popper.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
         
          <!-- Form Login -->
 <div class="modal fade" id="login" role="dialog">
@@ -80,7 +94,7 @@
           <div class="card-group">
             <div class="card">
                 <div class="card-body">
-                    <img class="rounded mb-5 mx-auto d-block" src="{{ asset('logo/logo.png') }}" width="50%" height="100%">
+                    <img class="rounded mb-5 mx-auto d-block" src="{{ asset('logo/logo.png') }}" width="200px" height="100px">
 
                     <!-- ACTIONNYA MENGARAH PADA URL /LOGIN -->
                     <!-- UNTUK MENCARI TAU TUJUAN URI DARI ROUTE NAME DIBAWAH, PADA COMMAND LINE, KETIKKAN PHP ARTISAN ROUTE:LIST DAN CARI URI YANG MENGGUNAKAN METHOD POST -->
@@ -143,4 +157,41 @@
     </div>
     <!-- /Form Login -->
     </body>
+    <script>
+            $(document).ready( function () {
+            $('#myTable').DataTable({
+            dom: 
+                "<'row'<'col-sm-4 pull-left'B><'col-sm-3'l><'col-sm-5 pull-right'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text:'Excel',
+                        titleAttr: 'Data Jamaah',
+                        "className": 'btn btn-info'
+                    },
+                    {
+                        extend: 'print',
+                        text:'Print',
+                        titleAttr: 'Data Jamaah',
+                        "className": 'btn btn-info'
+                    },
+                ],
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search..."
+                }
+                });
+                $('input').addClass('form-control');
+            });
+        </script>
+        <script>
+            function hanyaAngka(evt) {
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))            
+                    return false;
+                return true;
+            }
+        </script>
 </html>
