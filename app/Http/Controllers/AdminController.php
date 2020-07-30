@@ -368,14 +368,15 @@ class AdminController extends Controller
     }
 
     public function infaq_masjid(){
-        $infaq_masjids = Infaq_Masjid::all();
+        // $infaq_masjids = Infaq_Masjid::all();
         $masjids = Masjid::all();
-        $jamaahs = Jamaah_Masjid::orderBy('id_masjid')->get();
-        foreach($masjids as $masjid){
-            
-        }
+        return view('admin.infaq_masjid', compact('masjids'));
+    }
 
-        return view('admin.infaq_masjid', compact('infaq_masjids', 'masjids', 'jamaah_masjid', 'list_jamaah'));
+    public function findJamaahName(Request $request)
+    {
+        $data = Jamaah_Masjid::select('nama_jamaah', 'id_jamaah')->where('id_masjid', $request->id_masjid)->take(100)->get();
+        return response()->json($data);
     }
 
     public function input_infaq(Request $request)
@@ -395,7 +396,10 @@ class AdminController extends Controller
             'id_masjid' => $pengurus->id_masjid,
             'id_pengurus' => $pengurus->id_pengurus
         ]);
-        return redirect(route('pengurus.infaq_masjid'))->with('status', 'Data berhasil ditambahkan!');
+        $jamaahs = Jamaah_Masjid::where('id_masjid', $request->get('id_masjid'))
+            ->pluck('nama_jamaah', 'id_jamaah');
+        
+        return response()->json($jamaahs);
     }
 
     public function detail_infaq_masjid($id_infaq)

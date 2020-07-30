@@ -76,7 +76,7 @@
     </div>
     </section>
 
-    <section id="panduan"> 
+    <!-- <section id="panduan"> 
     <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6">
@@ -114,7 +114,7 @@
           </div>
         </div>
     </div>
-    </section>
+    </section> -->
     
     <!-- Card -->
     <!-- <div class="row text-center justify-content-center">

@@ -184,6 +184,9 @@ Route::put('/admin/zakat_web/{id_zakat}/validasi', 'AdminController@validasi_zak
 Route::put('/admin/zakat_web/{id_zakat}/update', 'AdminController@update_zakat_web')->name('admin.update_zakat_web');
 Route::delete('/admin/zakat_web/{id_zakat}', 'AdminController@delete_zakat_web')->name('admin.delete_zakat_web');
 
+Route::get('/findJamaahName', 'AdminController@findJamaahName');
+
+
 Route::group(['prefix' => 'administrator', 'middleware' => 'auth:web'], function(){
     Route::get('/home', 'HomeController@index')->name('home');
     
